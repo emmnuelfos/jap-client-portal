@@ -606,7 +606,7 @@
   /* ============================ PAGE: PERFORMANCE ============================ */
   /* Optional Google API key (free, 25k tests/day) — raises quota beyond the
      keyless shared pool. Restrict it to this portal's domain in Cloud Console. */
-  var PSI_KEY = "";
+  var PSI_KEY = "AIzaSyCIt1mQAzMhoRNHoM8XIVzBzwmF_pEbR6M";
 
   function psiCacheGet(strategy) {
     try { return JSON.parse(localStorage.getItem("tf_psi_" + strategy) || "null"); } catch (e) { return null; }
