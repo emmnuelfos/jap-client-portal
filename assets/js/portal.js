@@ -453,7 +453,7 @@
   function setGauge(card, score) {
     var arc = $(".gauge__arc", card), num = $(".gauge__num", card);
     var R = 56, C = 2 * Math.PI * R;
-    var cls = score >= 85 ? "good" : score >= 50 ? "warn" : "bad";
+    var cls = score >= 90 ? "good" : score >= 50 ? "warn" : "bad";
     var color = { good: "#2BD9A3", warn: "#FFC24B", bad: "#FD5757" }[cls];
     arc.style.stroke = color;
     arc.style.strokeDasharray = "0 " + C;
@@ -614,12 +614,12 @@
   var PSI_SEED_URL = "https://japseniorservicesllc.com";
   var PSI_SEED = {
     mobile: {
-      scores: { performance: 89, accessibility: 89, "best-practices": 100, seo: 100 },
+      scores: { performance: 71, accessibility: 89, "best-practices": 100, seo: 100 },
       cwv: { lcp: "3.3 s", tbt: "100 ms", cls: "0.002", fcp: "1.7 s" },
       opps: [], testedAt: PSI_SEED_TS, url: PSI_SEED_URL
     },
     desktop: {
-      scores: { performance: 96, accessibility: 94, "best-practices": 100, seo: 100 },
+      scores: { performance: 92, accessibility: 94, "best-practices": 100, seo: 100 },
       cwv: { lcp: "0.9 s", tbt: "100 ms", cls: "0", fcp: "0.5 s" },
       opps: [], testedAt: PSI_SEED_TS, url: PSI_SEED_URL
     }
@@ -677,7 +677,7 @@
       '  <div class="card rv"><div class="card__head"><div><p class="card__title">What these scores mean</p>' +
       '    <p class="card__sub">A plain-English guide</p></div></div>' +
       '    <div class="tut__steps" style="border:0;padding-top:4px;margin:0">' +
-      '      <li><strong>Performance</strong> — how fast pages load and respond. 85+ is excellent.</li>' +
+      '      <li><strong>Performance</strong> — how fast pages load and respond. 90+ is excellent.</li>' +
       '      <li><strong>Accessibility</strong> — how usable the site is for visitors with disabilities.</li>' +
       '      <li><strong>Best Practices</strong> — security and modern web standards.</li>' +
       '      <li><strong>SEO</strong> — how easily Google can read and rank your pages.</li>' +
