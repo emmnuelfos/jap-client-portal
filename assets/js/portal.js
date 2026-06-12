@@ -35,7 +35,7 @@
 
   /* Count-up animation */
   function countUp(node, target, suffix, dur) {
-    if (REDUCED) { node.textContent = fmt(target) + (suffix || ""); return; }
+    if (REDUCED || document.hidden) { node.textContent = fmt(target) + (suffix || ""); return; }
     var t0 = null;
     dur = dur || 1400;
     function tick(ts) {
@@ -55,52 +55,132 @@
     });
   }
 
-  /* ============================ DATA (sample) ============================ */
-  var rand = rng(20260612);
-  var DAYS = [];
-  (function () {
-    var base = 38;
+  /* ============================ DATA ============================ */
+  var STATS_ENDPOINTS = [
+    "https://japseniorservicesllc.com/wp-json/jap/v1/stats",
+    "https://zn2.466.myftpupload.com/wp-json/jap/v1/stats"
+  ];
+
+  function sampleData() {
+    var rand = rng(20260612);
+    var days = [], base = 38;
     for (var i = 29; i >= 0; i--) {
       var d = new Date(); d.setDate(d.getDate() - i);
       var dow = d.getDay();
       var weekend = (dow === 0 || dow === 6) ? 0.72 : 1;
       var trend = 1 + (29 - i) * 0.012;
-      var v = Math.round((base + rand() * 26) * weekend * trend);
-      DAYS.push({ date: d, v: v });
+      days.push({ date: d, v: Math.round((base + rand() * 26) * weekend * trend) });
     }
-  })();
-  var MONTHS = [];
-  (function () {
-    var names = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-    var base = 760;
-    for (var i = 0; i < 12; i++) {
-      base = Math.round(base * (1.02 + rand() * 0.07));
-      MONTHS.push({ name: names[i], v: base });
+    var months = [], mbase = 760;
+    for (var m = 11; m >= 0; m--) {
+      var md = new Date(); md.setMonth(md.getMonth() - m);
+      mbase = Math.round(mbase * (1.02 + rand() * 0.07));
+      months.push({ name: md.toLocaleDateString("en-US", { month: "short" }), v: mbase });
     }
-  })();
-  var today = DAYS[DAYS.length - 1].v;
-  var yesterday = DAYS[DAYS.length - 2].v;
-  var month30 = DAYS.reduce(function (s, d) { return s + d.v; }, 0);
-  var prev30est = Math.round(month30 / 1.14);
+    var month30 = days.reduce(function (s, d) { return s + d.v; }, 0);
+    return {
+      live: false,
+      days: days, months: months,
+      today: days[29].v, yesterday: days[28].v,
+      visitors30: month30, visitorsPrev30: Math.round(month30 / 1.14),
+      pageviews30: Math.round(month30 * 3.1),
+      sources: [
+        { name: "Google Search", v: 46, color: "#1FC8E0" },
+        { name: "Direct", v: 27, color: "#0498B1" },
+        { name: "Social Media", v: 15, color: "#FD5757" },
+        { name: "Referrals", v: 12, color: "#2BD9A3" }
+      ],
+      topPages: [
+        { name: "Home", v: 100 }, { name: "Services", v: 64 }, { name: "Contact", v: 41 },
+        { name: "About Us", v: 33 }, { name: "Careers", v: 21 }
+      ],
+      referrers: [
+        { name: "google.com", v: 100 }, { name: "facebook.com", v: 38 },
+        { name: "bing.com", v: 22 }, { name: "alabamacares.org", v: 12 }
+      ],
+      inquiries: 23,
+      collectingSince: null
+    };
+  }
 
-  var SOURCES = [
-    { name: "Google Search", v: 46, color: "#1FC8E0" },
-    { name: "Direct", v: 27, color: "#0498B1" },
-    { name: "Social Media", v: 15, color: "#FD5757" },
-    { name: "Referrals", v: 12, color: "#2BD9A3" }
-  ];
-  var TOP_PAGES = [
-    { name: "Home", v: 100 },
-    { name: "Services", v: 64 },
-    { name: "Contact", v: 41 },
-    { name: "About Us", v: 33 },
-    { name: "Careers", v: 21 }
-  ];
-  var DEVICES = [
-    { name: "Mobile", v: 63 },
-    { name: "Desktop", v: 31 },
-    { name: "Tablet", v: 6 }
-  ];
+  function classifySource(url) {
+    var h = url.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0].toLowerCase();
+    if (/google|bing|duckduckgo|yahoo|ecosia/.test(h)) return "Google & Search";
+    if (/facebook|instagram|t\.co|twitter|x\.com|linkedin|youtube|tiktok|pinterest|nextdoor/.test(h)) return "Social Media";
+    return "Referrals";
+  }
+
+  function transformLive(j) {
+    var days = j.daily.map(function (d) {
+      return { date: new Date(d.date + "T12:00:00"), v: d.visitors };
+    });
+    var months = j.monthly.map(function (m) {
+      return { name: new Date(m.month + "-15T12:00:00").toLocaleDateString("en-US", { month: "short" }), v: m.visitors };
+    });
+    var v30 = j.totals.visitors_30;
+
+    var buckets = { "Google & Search": 0, "Social Media": 0, "Referrals": 0 };
+    var referred = 0;
+    (j.referrers || []).forEach(function (r) {
+      buckets[classifySource(r.url)] += r.visitors;
+      referred += r.visitors;
+    });
+    var direct = Math.max(v30 - referred, 0);
+    var segs = [
+      { name: "Google & Search", v: buckets["Google & Search"], color: "#1FC8E0" },
+      { name: "Direct", v: direct, color: "#0498B1" },
+      { name: "Social Media", v: buckets["Social Media"], color: "#FD5757" },
+      { name: "Referrals", v: buckets["Referrals"], color: "#2BD9A3" }
+    ];
+    var segTotal = segs.reduce(function (s, x) { return s + x.v; }, 0) || 1;
+    segs.forEach(function (s) { s.v = Math.round(s.v / segTotal * 100); });
+
+    var maxPage = Math.max.apply(null, [1].concat((j.top_pages || []).map(function (t) { return t.visitors; })));
+    var topPages = (j.top_pages || []).map(function (t) {
+      return { name: t.title, v: Math.round(t.visitors / maxPage * 100), abs: t.visitors };
+    });
+    var maxRef = Math.max.apply(null, [1].concat((j.referrers || []).map(function (r) { return r.visitors; })));
+    var referrers = (j.referrers || []).slice(0, 5).map(function (r) {
+      return {
+        name: r.url.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0],
+        v: Math.round(r.visitors / maxRef * 100), abs: r.visitors
+      };
+    });
+
+    return {
+      live: true,
+      days: days, months: months,
+      today: days.length ? days[days.length - 1].v : 0,
+      yesterday: days.length > 1 ? days[days.length - 2].v : 0,
+      visitors30: v30, visitorsPrev30: j.totals.visitors_prev_30,
+      pageviews30: j.totals.pageviews_30,
+      sources: segs, topPages: topPages, referrers: referrers,
+      inquiries: j.inquiries_30,
+      collectingSince: j.collecting_since
+    };
+  }
+
+  var statsPromise = null;
+  function loadStats() {
+    if (statsPromise) return statsPromise;
+    statsPromise = (function tryNext(i) {
+      if (i >= STATS_ENDPOINTS.length) return Promise.resolve(sampleData());
+      var ctl = new AbortController();
+      var timer = setTimeout(function () { ctl.abort(); }, 6000);
+      return fetch(STATS_ENDPOINTS[i], { signal: ctl.signal }).then(function (r) {
+        clearTimeout(timer);
+        if (!r.ok) throw new Error("stats " + r.status);
+        return r.json();
+      }).then(function (j) {
+        if (!j || !j.daily) throw new Error("bad payload");
+        return transformLive(j);
+      }).catch(function () {
+        clearTimeout(timer);
+        return tryNext(i + 1);
+      });
+    })(0);
+    return statsPromise;
+  }
 
   /* ============================ GATE ============================ */
   var gate = $("#gate"), app = $("#app");
@@ -114,7 +194,8 @@
     setTimeout(function () { gate.remove(); }, 700);
   }
   if (sessionStorage.getItem("tf_portal") === "1") {
-    gate.remove(); app.hidden = false; boot();
+    gate.remove(); app.hidden = false;
+    setTimeout(boot, 0); /* defer until the whole module has evaluated */
   } else {
     gateForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -221,7 +302,7 @@
       '<stop offset="100%" stop-color="#1FC8E0" stop-opacity="0"/></linearGradient>';
     svg.appendChild(defs);
 
-    var max = Math.ceil(Math.max.apply(null, data.map(function (d) { return d.v; })) / 20) * 20;
+    var max = Math.max(Math.ceil(Math.max.apply(null, data.map(function (d) { return d.v; })) / 20) * 20, 20);
     var iw = W - PAD.l - PAD.r, ih = H - PAD.t - PAD.b;
     function X(i) { return PAD.l + (i / (data.length - 1)) * iw; }
     function Y(v) { return PAD.t + ih - (v / max) * ih; }
@@ -297,7 +378,7 @@
       '<linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">' +
       '<stop offset="0%" stop-color="#1FC8E0"/><stop offset="100%" stop-color="#026D81"/></linearGradient>';
     svg.appendChild(defs);
-    var max = Math.ceil(Math.max.apply(null, data.map(function (d) { return d.v; })) / 250) * 250;
+    var max = Math.max(Math.ceil(Math.max.apply(null, data.map(function (d) { return d.v; })) / 250) * 250, 250);
     var iw = W - PAD.l - PAD.r, ih = H - PAD.t - PAD.b;
     for (var g = 0; g <= 4; g++) {
       var gy = PAD.t + (ih / 4) * g;
@@ -385,12 +466,34 @@
 
   /* ============================ PAGE: DASHBOARD ============================ */
   function renderDashboard(page) {
-    var deltaToday = Math.round((today - yesterday) / yesterday * 100);
-    var deltaMonth = Math.round((month30 - prev30est) / prev30est * 100);
+    page.innerHTML = '<p class="note"><span class="skel" style="display:inline-block;width:220px;height:14px"></span></p>';
+    loadStats().then(function (D) { renderDashboardWith(page, D); });
+  }
+
+  function renderDashboardWith(page, D) {
+    var deltaToday = D.yesterday > 0 ? Math.round((D.today - D.yesterday) / D.yesterday * 100) : null;
+    var deltaMonth = (D.visitorsPrev30 != null && D.visitorsPrev30 > 0)
+      ? Math.round((D.visitors30 - D.visitorsPrev30) / D.visitorsPrev30 * 100) : null;
+
+    var noteText;
+    if (D.live) {
+      noteText = "Live analytics from your website · updates every 5 minutes";
+      if (D.collectingSince) {
+        var since = new Date(D.collectingSince + "T12:00:00");
+        var ageDays = (Date.now() - since.getTime()) / 86400000;
+        if (ageDays < 35) {
+          noteText += " · collecting since " + since.toLocaleDateString("en-US", { month: "long", day: "numeric" }) + " — trends fill in as data grows";
+        }
+      } else {
+        noteText = "Live analytics connected — collection starts with your first visitors today";
+      }
+    } else {
+      noteText = "Sample reporting data — live analytics connect at launch. Numbers refresh automatically once connected.";
+    }
 
     page.innerHTML =
       '<p class="note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5v.5"/></svg>' +
-      'Sample reporting data — live analytics connect at launch. Numbers refresh automatically once connected.</p>' +
+      noteText + "</p>" +
       '<div class="grid grid--kpi" id="kpis"></div>' +
       '<div class="grid grid--two">' +
       '  <div class="card rv"><div class="card__head"><div><p class="card__title">Visitors</p>' +
@@ -403,9 +506,9 @@
       '</div>' +
       '<div class="grid grid--three">' +
       '  <div class="card rv"><div class="card__head"><div><p class="card__title">Top pages</p>' +
-      '    <p class="card__sub">Most visited this month</p></div></div><div class="hbars" id="top-pages"></div></div>' +
-      '  <div class="card rv"><div class="card__head"><div><p class="card__title">Devices</p>' +
-      '    <p class="card__sub">How people browse your site</p></div></div><div class="hbars" id="devices"></div></div>' +
+      '    <p class="card__sub">Most visited · last 30 days</p></div></div><div class="hbars" id="top-pages"></div></div>' +
+      '  <div class="card rv"><div class="card__head"><div><p class="card__title">Top referrers</p>' +
+      '    <p class="card__sub">Sites sending you visitors</p></div></div><div class="hbars" id="referrers"></div></div>' +
       '  <div class="card rv"><div class="card__head"><div><p class="card__title">Care inquiries</p>' +
       '    <p class="card__sub">Form submissions · last 30 days</p></div></div>' +
       '    <div class="kpi__value" id="inq-count" style="font-size:42px;margin:8px 0 4px"></div>' +
@@ -415,23 +518,28 @@
       '</div>';
 
     /* KPI cards */
+    var pagesPerVisit = D.visitors30 > 0 ? (D.pageviews30 / D.visitors30).toFixed(1) : "—";
     var kpis = [
-      { label: "Visitors today", icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', value: today, delta: deltaToday, hint: "vs yesterday", spark: DAYS.slice(-10).map(function (d) { return d.v; }) },
-      { label: "Visitors · 30 days", icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>', value: month30, delta: deltaMonth, hint: "vs previous 30 days", spark: DAYS.map(function (d) { return d.v; }) },
-      { label: "Avg. time on site", icon: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', value: 154, suffix: "s", custom: "2m 34s", delta: 9, hint: "vs previous 30 days" },
-      { label: "Pages per visit", icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/>', value: 31, custom: "3.1", delta: 5, hint: "site-wide average" }
+      { label: "Visitors today", icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>', value: D.today, delta: deltaToday, hint: deltaToday != null ? "vs yesterday" : "counting from today", spark: D.days.slice(-10).map(function (d) { return d.v; }) },
+      { label: "Visitors · 30 days", icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>', value: D.visitors30, delta: deltaMonth, hint: deltaMonth != null ? "vs previous 30 days" : "first reporting period", spark: D.days.map(function (d) { return d.v; }) },
+      { label: "Pageviews · 30 days", icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>', value: D.pageviews30, delta: null, hint: "total pages viewed" },
+      { label: "Pages per visit", icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/>', custom: pagesPerVisit, delta: null, hint: "site-wide average" }
     ];
     var kpiHost = $("#kpis", page);
     kpis.forEach(function (k) {
       var card = el("div", "card kpi rv");
-      var dirCls = k.delta >= 0 ? "up" : "down";
-      var arrow = k.delta >= 0 ? '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>' : '<path d="M7 7l10 10"/><path d="M17 8v9H8"/>';
+      var deltaHtml = "";
+      if (k.delta != null) {
+        var dirCls = k.delta >= 0 ? "up" : "down";
+        var arrow = k.delta >= 0 ? '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>' : '<path d="M7 7l10 10"/><path d="M17 8v9H8"/>';
+        deltaHtml = '<span class="kpi__delta kpi__delta--' + dirCls + '">' +
+          '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' + arrow + "</svg>" +
+          Math.abs(k.delta) + "%</span>";
+      }
       card.innerHTML =
         '<p class="kpi__label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + k.icon + "</svg>" + k.label + "</p>" +
         '<div class="kpi__value"></div>' +
-        '<div class="kpi__meta"><span class="kpi__delta kpi__delta--' + dirCls + '">' +
-        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' + arrow + "</svg>" +
-        Math.abs(k.delta) + '%</span><span class="kpi__hint">' + k.hint + "</span></div>";
+        '<div class="kpi__meta">' + deltaHtml + '<span class="kpi__hint">' + k.hint + "</span></div>";
       kpiHost.appendChild(card);
       var valNode = $(".kpi__value", card);
       if (k.custom) { valNode.textContent = k.custom; }
@@ -445,45 +553,50 @@
 
     /* main chart + toggle */
     var chartHost = $("#main-chart", page);
-    areaChart(chartHost, DAYS);
+    areaChart(chartHost, D.days);
     $$(".seg button", page).forEach(function (b) {
       b.addEventListener("click", function () {
         $$(".seg button", page).forEach(function (x) { x.classList.remove("is-on"); });
         b.classList.add("is-on");
         if (b.dataset.mode === "daily") {
           $("#chart-sub", page).textContent = "Daily visitors · last 30 days";
-          areaChart(chartHost, DAYS);
+          areaChart(chartHost, D.days);
         } else {
           $("#chart-sub", page).textContent = "Monthly visitors · last 12 months";
-          barChart(chartHost, MONTHS);
+          barChart(chartHost, D.months);
         }
       });
     });
 
     /* donut + legend */
-    donut($("#donut-host", page), SOURCES, "100%", "of traffic");
+    donut($("#donut-host", page), D.sources, D.live ? fmt(D.visitors30) : "100%", D.live ? "visitors · 30d" : "of traffic");
     var leg = $("#src-legend", page);
-    SOURCES.forEach(function (s) {
+    D.sources.forEach(function (s) {
       leg.appendChild(el("div", "legend__row",
         '<span class="legend__dot" style="background:' + s.color + '"></span>' +
         '<span class="legend__name">' + s.name + '</span><span class="legend__val">' + s.v + "%</span>"));
     });
 
     /* h-bars */
-    function hbars(host, rows, unit, coral) {
+    function hbars(host, rows, emptyMsg) {
+      if (!rows.length) {
+        host.appendChild(el("p", "card__sub", emptyMsg));
+        return;
+      }
       rows.forEach(function (r, i) {
+        var valText = r.abs != null ? fmt(r.abs) : r.v + "%";
         var row = el("div", "hbar",
           '<div class="hbar__top"><span class="hbar__name">' + r.name + '</span>' +
-          '<span class="hbar__val">' + r.v + unit + "</span></div>" +
-          '<div class="hbar__track"><div class="hbar__fill' + (coral ? " hbar__fill--coral" : "") + '"></div></div>');
+          '<span class="hbar__val">' + valText + "</span></div>" +
+          '<div class="hbar__track"><div class="hbar__fill"></div></div>');
         host.appendChild(row);
         var fill = $(".hbar__fill", row);
-        setTimeout(function () { fill.style.width = r.v + "%"; }, 350 + i * 110);
+        setTimeout(function () { fill.style.width = Math.max(r.v, 2) + "%"; }, 350 + i * 110);
       });
     }
-    hbars($("#top-pages", page), TOP_PAGES, "%");
-    hbars($("#devices", page), DEVICES, "%", false);
-    countUp($("#inq-count", page), 23, "", 1600);
+    hbars($("#top-pages", page), D.topPages, "No page visits recorded yet — check back soon.");
+    hbars($("#referrers", page), D.referrers, "No referral traffic yet — this fills in as other sites link to you.");
+    countUp($("#inq-count", page), D.inquiries, "", 1600);
 
     stagger(page);
   }
