@@ -794,6 +794,7 @@
   }
 
   /* ============================ PAGE: TUTORIALS ============================ */
+  var TUT_IMG = "assets/tutorials/";
   var TUTS = [
     {
       group: "Getting started",
@@ -801,22 +802,47 @@
         {
           id: "login", title: "Log in to WordPress", time: "2 min",
           icon: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+          demo: [
+            { img: "login-0", hot: { x: 39.86, y: 35.91, w: 20.28, h: 3.35 },
+              cap: "Go to <strong>japseniorservicesllc.com/wp-admin</strong>. This screen appears first — click <strong>Log in with username and password</strong>.",
+              sub: "The black GoDaddy button is for TaskFloVA's hosting account — you never need it." },
+            { img: "login-1", hot: { x: 39.86, y: 27.67, w: 20.28, h: 5.78 },
+              cap: "Type the <strong>WordPress username</strong> from your TaskFloVA welcome email." },
+            { img: "login-2", hot: { x: 55.02, y: 42.78, w: 5.12, h: 4.89 },
+              cap: "Enter your password and click <strong>Log In</strong>.",
+              sub: "Tip: let your browser save it — one less thing to remember." },
+            { img: "login-3", hot: { x: 0, y: 4.22, w: 11.94, h: 84.08 },
+              cap: "You're in. This left menu reaches everything — it's the starting point for every guide below.",
+              sub: "Bookmark this page so it's always one click away." }
+          ],
           steps: [
-            "Go to <code>japseniorservicesllc.com/wp-admin</code> in your browser.",
+            "Go to <code>japseniorservicesllc.com/wp-admin</code> and click <strong>Log in with username and password</strong> (skip the black GoDaddy button).",
             "Enter the <strong>username and password</strong> from your TaskFloVA welcome email.",
-            "You’ll land on the WordPress <strong>Dashboard</strong> — the control room for your whole website.",
-            "Bookmark this page so it’s always one click away."
+            "You'll land on the WordPress <strong>Dashboard</strong> — the control room for your whole website.",
+            "Bookmark this page so it's always one click away."
           ]
         },
         {
-          id: "tour", title: "Find your way around WordPress", time: "4 min",
+          id: "tour", title: "Find your way around WordPress", time: "3 min",
           icon: '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
+          demo: [
+            { img: "tour-1", hot: { x: 0, y: 4.22, w: 11.94, h: 84.08 },
+              cap: "The <strong>left sidebar</strong> is your main menu. You'll only ever need three items: Pages, Posts and Media.",
+              sub: "TaskFloVA manages the technical menus (Plugins, Settings, Elementor) for you." },
+            { img: "tour-2", hot: { x: 12.22, y: 42.03, w: 86.81, h: 56 },
+              cap: "<strong>Pages</strong> holds your permanent website pages — Home, Services, About, Contact, Careers, FAQs and Blog.",
+              sub: "These are edited with Elementor — covered in the next walkthrough." },
+            { img: "tour-3", hot: { x: 12.22, y: 42.03, w: 86.81, h: 53.69 },
+              cap: "<strong>Posts</strong> holds your blog articles. Your three launch articles already live here." },
+            { img: "tour-4", hot: { x: 12.22, y: 42.48, w: 86.81, h: 56 },
+              cap: "<strong>Media</strong> is your photo library — every image on the website lives in this grid." }
+          ],
           steps: [
             "The <strong>left sidebar</strong> is your main menu: Pages, Posts, Media, and more.",
             "<strong>Pages</strong> holds your main website pages (Home, Services, Contact…).",
             "<strong>Posts</strong> holds your blog articles.",
             "<strong>Media</strong> is your photo library — every image on the site lives here.",
-            "Don’t worry about the other menus; TaskFloVA manages the technical ones for you."
+            "Don't worry about the other menus; TaskFloVA manages the technical ones for you."
           ]
         }
       ]
@@ -825,30 +851,65 @@
       group: "Editing your website",
       items: [
         {
-          id: "elementor", title: "Edit a page with Elementor", time: "6 min",
+          id: "elementor", title: "Edit a page with Elementor", time: "4 min",
           icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+          demo: [
+            { img: "elem-1", hot: { x: 15.33, y: 52.12, w: 8.59, h: 3.22 },
+              cap: "In <strong>Pages</strong>, hover over the page you want and click <strong>Edit with Elementor</strong>." },
+            { img: "elem-2", hot: { x: 20.42, y: 4.67, w: 79.5, h: 95 },
+              cap: "Your page opens looking exactly like the live website. Everything you see here can be clicked and changed." },
+            { img: "elem-3", hot: { x: 0, y: 4.67, w: 21.67, h: 95 },
+              cap: "Click any text or photo and its settings open in this <strong>left panel</strong>. Click into text and just retype it; click a photo, then choose a new one from your library.",
+              sub: "Don't worry about breaking anything — every change can be undone with Ctrl + Z." },
+            { img: "elem-4", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "Happy with it? Click <strong>Update</strong> in the top-right corner. Your change is live right away.",
+              sub: "If the live page still shows the old version, see the 'Made a change?' guide below." }
+          ],
           steps: [
             "From the WordPress sidebar choose <strong>Pages</strong>, hover a page, and click <strong>Edit with Elementor</strong>.",
             "Click any <strong>text</strong> on the page and simply start typing to change it.",
             "Click a <strong>photo</strong>, then in the left panel click the image to choose a new one from your library.",
-            "When you’re happy, press the green <strong>Update</strong> button at the bottom left.",
-            "Open the page in a new tab to double-check how it looks. That’s it — you’re live."
+            "When you're happy, press the <strong>Update</strong> button at the top right.",
+            "Open the page in a new tab to double-check how it looks. That's it — you're live."
           ]
         },
         {
-          id: "blog", title: "Publish a new blog post", time: "5 min",
+          id: "blog", title: "Publish a new blog post", time: "4 min",
           icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>',
+          demo: [
+            { img: "post-1", hot: { x: 14, y: 14, w: 55, h: 14 },
+              cap: "Go to <strong>Posts → Add New</strong>. This is the WordPress writing screen — clean and distraction-free." },
+            { img: "post-2", hot: { x: 14, y: 12, w: 60, h: 22 },
+              cap: "Type your <strong>headline</strong>, press Enter, and write. Think about what families would search for — that's your best headline.",
+              sub: "Short paragraphs and subheadings read best, especially on phones." },
+            { img: "post-3", hot: { x: 80.14, y: 70, w: 19.5, h: 28 },
+              cap: "In the right panel under <strong>Post</strong>, open <strong>Categories</strong> and tick the best fit — for example Aging at Home." },
+            { img: "post-4", hot: { x: 81.25, y: 0, w: 18.06, h: 8.67 },
+              cap: "Open <strong>Featured image</strong> and choose a photo. This is the image your Blog page shows on the article's card." },
+            { img: "post-5", hot: { x: 91.7, y: 1.11, w: 5.38, h: 4.89 },
+              cap: "Click <strong>Publish</strong> — it asks you to confirm once more, which is normal. Your article appears on the Blog page automatically, styled to match your site." }
+          ],
           steps: [
             "Go to <strong>Posts → Add New</strong> in the WordPress sidebar.",
             "Write a clear, helpful <strong>title</strong> — think about what families would search for.",
             "Write your article in the editor. Short paragraphs and subheadings read best.",
             "On the right panel, set a <strong>Category</strong> and a <strong>Featured Image</strong>.",
-            "Click <strong>Publish</strong>. Your post automatically appears on the Blog page with your site’s design."
+            "Click <strong>Publish</strong>. Your post automatically appears on the Blog page with your site's design."
           ]
         },
         {
           id: "media", title: "Add & manage photos", time: "3 min",
           icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+          demo: [
+            { img: "media-1", hot: { x: 12.5, y: 28.62, w: 8.34, h: 4.67 },
+              cap: "In <strong>Media</strong>, click <strong>Add New Media File</strong>." },
+            { img: "media-2", hot: { x: 12.22, y: 28.68, w: 86.81, h: 24.44 },
+              cap: "Drag photos from your computer straight into this box — or click <strong>Select Files</strong> to browse.",
+              sub: "Clear file names like caregiver-with-client.jpg help Google understand your photos." },
+            { img: "media-3", hot: { x: 76.01, y: 29.89, w: 21.15, h: 6.89 },
+              cap: "Click the uploaded photo and fill in <strong>Alternative Text</strong> — one sentence describing what's in it.",
+              sub: "It helps Google find you, and helps visitors who use screen readers." }
+          ],
           steps: [
             "Go to <strong>Media → Add New</strong> and drag photos straight from your computer.",
             "Use clear file names like <code>caregiver-with-client.jpg</code> — it helps Google.",
@@ -862,11 +923,19 @@
       group: "Forms & inquiries",
       items: [
         {
-          id: "entries", title: "View form submissions", time: "3 min",
+          id: "entries", title: "View form submissions", time: "2 min",
           icon: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>',
+          demo: [
+            { img: "form-1", hot: { x: 12.22, y: 19.23, w: 86.81, h: 42.91 },
+              cap: "Every contact message and job application is saved here: <strong>MetForm → Entries</strong>.",
+              sub: "Blurred here for privacy — you'll see real names and dates." },
+            { img: "form-2", hot: { x: 12.22, y: 8.77, w: 86.81, h: 66.01 },
+              cap: "Click any entry to see the full message, phone number and — for job applications — the attached resume.",
+              sub: "Try to reply to care inquiries within one business day. Speed wins clients." }
+          ],
           steps: [
             "Every contact form and job application is emailed to you instantly.",
-            "They’re also saved in WordPress: go to <strong>MetForm → Entries</strong>.",
+            "They're also saved in WordPress: go to <strong>MetForm → Entries</strong>.",
             "Click any entry to see the full message, phone number, and (for job applications) the attached resume.",
             "Tip: respond to care inquiries within one business day — speed wins clients."
           ]
@@ -874,10 +943,15 @@
         {
           id: "email", title: "Where do form emails go?", time: "2 min",
           icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+          demo: [
+            { img: "form-3", hot: { x: 12.22, y: 19.24, w: 86.81, h: 36.07 },
+              cap: "These are your two forms — <strong>Contact Form</strong> and <strong>Job Application</strong>. Both email you instantly the moment someone submits." },
+            { text: { h: "Check spam once a week", p: "Notifications go to your business email address. If one seems missing, peek at the spam folder. Want them sent somewhere else? Message TaskFloVA and we'll switch it the same day." } }
+          ],
           steps: [
             "Form notifications are sent to your business email address on file.",
             "Check your <strong>spam folder</strong> once a week, just in case.",
-            "Want notifications at a different address? Message TaskFloVA and we’ll switch it the same day."
+            "Want notifications at a different address? Message TaskFloVA and we'll switch it the same day."
           ]
         }
       ]
@@ -886,26 +960,176 @@
       group: "Good to know",
       items: [
         {
-          id: "cache", title: "Made a change but don’t see it?", time: "2 min",
+          id: "cache", title: "Made a change but don't see it?", time: "2 min",
           icon: '<path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/>',
+          demo: [
+            { text: { h: "Your site keeps a “saved copy”", p: "To load fast, the website serves a stored copy of each page (called caching). For a few minutes after an edit, you might still see the old version. Nothing is lost." } },
+            { text: { h: "First: hard refresh", p: "Hold Ctrl and press F5 (Windows) or Cmd + Shift + R (Mac). That forces your browser to fetch the newest version of the page." } },
+            { img: "cache-1", hot: { x: 55.99, y: 0, w: 12.53, h: 4.89 },
+              cap: "Still seeing the old version? While logged in, click <strong>Flush Cache</strong> in the black bar at the top of your website.",
+              sub: "Or message TaskFloVA — we'll clear it instantly." }
+          ],
           steps: [
             "Your site uses <strong>caching</strong> to load fast — sometimes it shows a saved copy for a few minutes.",
             "First, try a <strong>hard refresh</strong>: hold <code>Ctrl</code> and press <code>F5</code> (Windows) or <code>Cmd + Shift + R</code> (Mac).",
-            "Still seeing the old version? Wait 5 minutes, or contact TaskFloVA and we’ll clear it instantly."
+            "Still seeing the old version? Use <strong>Flush Cache</strong> in the top admin bar, or contact TaskFloVA and we'll clear it instantly."
           ]
         },
         {
           id: "help", title: "Get help from TaskFloVA", time: "1 min",
           icon: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/>',
+          demo: [
+            { text: { h: "No question is too small", p: "Email or message your TaskFloVA contact about anything in these guides — or anything that isn't. We respond within one business day." } },
+            { text: { h: "Urgent issue?", p: "If something on the website looks broken, put URGENT in your message and we'll prioritize it immediately." } }
+          ],
           steps: [
-            "Anything you’re unsure about — just ask. No question is too small.",
-            "Email or message your TaskFloVA contact and we’ll respond within one business day.",
-            "For urgent website issues, mark your message <strong>URGENT</strong> and we’ll prioritize it."
+            "Anything you're unsure about — just ask. No question is too small.",
+            "Email or message your TaskFloVA contact and we'll respond within one business day.",
+            "For urgent website issues, mark your message <strong>URGENT</strong> and we'll prioritize it."
           ]
         }
       ]
     }
   ];
+
+  /* ---------- demo player (video-style walkthrough) ---------- */
+  var demoEl = null, demoState = { steps: [], i: 0, playing: false, timer: null, title: "" };
+  var STEP_MS = 7000;
+
+  function buildDemoPlayer() {
+    if (demoEl) return;
+    demoEl = el("div", "demo");
+    demoEl.innerHTML =
+      '<div class="demo__box" role="dialog" aria-modal="true" aria-label="Tutorial walkthrough">' +
+      '  <div class="demo__head"><img src="assets/img/tf-white.svg" alt="TaskFloVA"><h3 id="demo-title"></h3>' +
+      '    <span class="demo__count" id="demo-count"></span>' +
+      '    <button class="demo__close" id="demo-close" aria-label="Close walkthrough">' +
+      '      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>' +
+      '  <div class="demo__bars" id="demo-bars"></div>' +
+      '  <div class="demo__stage" id="demo-stage"><div class="demo__ring" id="demo-ring"></div></div>' +
+      '  <div class="demo__foot"><div class="demo__cap" id="demo-cap"></div>' +
+      '    <div class="demo__nav">' +
+      '      <button class="demo__btn" id="demo-prev" aria-label="Previous step"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>' +
+      '      <button class="demo__btn demo__btn--play" id="demo-play" aria-label="Play or pause"></button>' +
+      '      <button class="demo__btn" id="demo-next" aria-label="Next step"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>' +
+      '    </div></div></div>';
+    document.body.appendChild(demoEl);
+    $("#demo-close").addEventListener("click", closeDemo);
+    demoEl.addEventListener("click", function (e) { if (e.target === demoEl) closeDemo(); });
+    $("#demo-prev").addEventListener("click", function () { go(demoState.i - 1, true); });
+    $("#demo-next").addEventListener("click", function () { go(demoState.i + 1, true); });
+    $("#demo-play").addEventListener("click", function () {
+      if (demoState.i === demoState.steps.length - 1 && !demoState.playing) { go(0, false); setPlaying(true); return; }
+      setPlaying(!demoState.playing);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (!demoEl.classList.contains("is-open")) return;
+      if (e.key === "Escape") closeDemo();
+      if (e.key === "ArrowRight") go(demoState.i + 1, true);
+      if (e.key === "ArrowLeft") go(demoState.i - 1, true);
+      if (e.key === " ") { e.preventDefault(); setPlaying(!demoState.playing); }
+    });
+  }
+
+  function playIcon(playing) {
+    $("#demo-play").innerHTML = playing
+      ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+      : '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z"/></svg>';
+  }
+
+  function setPlaying(on) {
+    demoState.playing = on;
+    playIcon(on);
+    clearTimeout(demoState.timer);
+    var bar = $$("#demo-bars .demo__bar")[demoState.i];
+    if (!bar) return;
+    var fill = $("i", bar);
+    if (on) {
+      bar.classList.add("is-now");
+      fill.style.transitionDuration = STEP_MS + "ms";
+      requestAnimationFrame(function () { requestAnimationFrame(function () { fill.style.width = "100%"; }); });
+      demoState.timer = setTimeout(function () {
+        if (demoState.i < demoState.steps.length - 1) { go(demoState.i + 1, false); }
+        else { setPlaying(false); }
+      }, STEP_MS);
+    } else {
+      var cur = parseFloat(getComputedStyle(fill).width) / parseFloat(getComputedStyle(bar).width) * 100;
+      fill.style.transitionDuration = "0ms";
+      fill.style.width = cur + "%";
+    }
+  }
+
+  function go(i, manual) {
+    if (i < 0 || i >= demoState.steps.length) return;
+    clearTimeout(demoState.timer);
+    demoState.i = i;
+    var s = demoState.steps[i];
+    var stage = $("#demo-stage"), ring = $("#demo-ring");
+
+    $$("#demo-bars .demo__bar").forEach(function (b, bi) {
+      b.classList.toggle("is-done", bi < i);
+      b.classList.remove("is-now");
+      var f = $("i", b);
+      f.style.transitionDuration = "0ms";
+      f.style.width = bi < i ? "100%" : "0";
+    });
+    $("#demo-count").textContent = "Step " + (i + 1) + " of " + demoState.steps.length;
+    $("#demo-prev").disabled = i === 0;
+    $("#demo-next").disabled = i === demoState.steps.length - 1;
+
+    $$("img, .demo__slide", stage).forEach(function (n) { n.remove(); });
+    if (s.text) {
+      stage.classList.add("is-text");
+      ring.classList.remove("is-on");
+      stage.appendChild(el("div", "demo__slide", "<h4>" + s.text.h + "</h4><p>" + s.text.p + "</p>"));
+      $("#demo-cap").innerHTML = "";
+    } else {
+      stage.classList.remove("is-text");
+      var img = new Image();
+      img.src = TUT_IMG + s.img + ".webp";
+      img.alt = "";
+      img.onload = function () { img.classList.add("is-on"); };
+      stage.appendChild(img);
+      if (s.hot && !REDUCED) {
+        var h = s.hot;
+        var hh = Math.min(h.h, 100 - h.y);
+        ring.style.left = h.x + "%"; ring.style.top = h.y + "%";
+        ring.style.width = h.w + "%"; ring.style.height = hh + "%";
+        ring.classList.add("is-on");
+      } else { ring.classList.remove("is-on"); }
+      stage.appendChild(ring);
+      $("#demo-cap").innerHTML = s.cap + (s.sub ? "<em>" + s.sub + "</em>" : "");
+    }
+    if (s.text) $("#demo-cap").innerHTML = "";
+    if (demoState.playing || !manual) setPlaying(true); else setPlaying(false);
+  }
+
+  function openDemo(tut) {
+    buildDemoPlayer();
+    demoState.steps = tut.demo;
+    demoState.title = tut.title;
+    $("#demo-title").textContent = tut.title;
+    var bars = $("#demo-bars");
+    bars.innerHTML = "";
+    tut.demo.forEach(function (_, bi) {
+      var b = el("div", "demo__bar", "<i></i>");
+      b.addEventListener("click", function () { go(bi, true); });
+      bars.appendChild(b);
+    });
+    /* preload all step images */
+    tut.demo.forEach(function (s) { if (s.img) { var pre = new Image(); pre.src = TUT_IMG + s.img + ".webp"; } });
+    demoEl.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    demoState.i = -1;
+    go(0, false);
+    setPlaying(true);
+  }
+  function closeDemo() {
+    clearTimeout(demoState.timer);
+    demoState.playing = false;
+    demoEl.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
 
   function renderTutorials(page) {
     var total = TUTS.reduce(function (s, g) { return s + g.items.length; }, 0);
@@ -920,7 +1144,7 @@
       '    <circle id="prog-arc" cx="36" cy="36" r="' + R + '" stroke="#1FC8E0"/></svg>' +
       '    <span class="tut-progress__num" id="prog-num"></span></div>' +
       '  <div><h3>Your onboarding journey</h3>' +
-      '  <p>Work through these short guides at your own pace. Your progress is saved on this device.</p></div>' +
+      '  <p>Press play on any guide for a guided walkthrough of your real website — or expand the written steps. Progress is saved on this device.</p></div>' +
       "</div><div id='tut-groups'></div>";
 
     var groupsHost = $("#tut-groups", page);
@@ -937,12 +1161,12 @@
       if (REDUCED) return;
       var colors = ["#1FC8E0", "#0498B1", "#FD5757", "#2BD9A3", "#FFC24B"];
       for (var i = 0; i < 18; i++) {
-        var p = el("i", "burst");
-        p.style.background = colors[i % colors.length];
-        p.style.left = x + "px"; p.style.top = y + "px";
-        document.body.appendChild(p);
+        var pcl = el("i", "burst");
+        pcl.style.background = colors[i % colors.length];
+        pcl.style.left = x + "px"; pcl.style.top = y + "px";
+        document.body.appendChild(pcl);
         var ang = Math.random() * Math.PI * 2, dist = 40 + Math.random() * 70;
-        p.animate([
+        pcl.animate([
           { transform: "translate(0,0) rotate(0)", opacity: 1 },
           { transform: "translate(" + Math.cos(ang) * dist + "px," + (Math.sin(ang) * dist + 40) + "px) rotate(" + (Math.random() * 360) + "deg)", opacity: 0 }
         ], { duration: 700 + Math.random() * 400, easing: "cubic-bezier(.22,.9,.26,1)" }).onfinish = function () { this.effect.target.remove(); };
@@ -958,8 +1182,10 @@
         card.innerHTML =
           '<div class="tut__head">' +
           '  <span class="tut__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + t.icon + "</svg></span>" +
-          '  <div class="tut__meta"><h4>' + t.title + "</h4><p>" + t.steps.length + " steps · " + t.time + "</p></div>" +
-          '  <div class="tut__state"><span class="tut__done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
+          '  <div class="tut__meta"><h4>' + t.title + "</h4><p>" + t.demo.length + " steps · " + t.time + "</p></div>" +
+          '  <div class="tut__state">' +
+          '  <button class="tut__watch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z"/></svg>Play</button>' +
+          '  <span class="tut__done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
           '  <svg class="tut__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>' +
           '<div class="tut__body"><div class="tut__body-inner"><ol class="tut__steps">' +
           t.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") +
@@ -973,6 +1199,10 @@
         markLabel();
         $(".tut__head", card).addEventListener("click", function () {
           card.classList.toggle("is-open");
+        });
+        $(".tut__watch", card).addEventListener("click", function (e) {
+          e.stopPropagation();
+          openDemo(t);
         });
         markBtn.addEventListener("click", function (e) {
           e.stopPropagation();
