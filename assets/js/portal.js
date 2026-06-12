@@ -173,7 +173,9 @@
         return r.json();
       }).then(function (j) {
         if (!j || !j.daily) throw new Error("bad payload");
-        return transformLive(j);
+        var out = transformLive(j);
+        out.siteOrigin = new URL(STATS_ENDPOINTS[i]).origin;
+        return out;
       }).catch(function () {
         clearTimeout(timer);
         return tryNext(i + 1);
@@ -602,10 +604,26 @@
   }
 
   /* ============================ PAGE: PERFORMANCE ============================ */
-  var FALLBACK = {
-    scores: { performance: 92, accessibility: 96, "best-practices": 100, seo: 100 },
-    cwv: { lcp: "1.8 s", cls: "0.02", inp: "112 ms", fcp: "1.2 s" }
-  };
+  /* Optional Google API key (free, 25k tests/day) — raises quota beyond the
+     keyless shared pool. Restrict it to this portal's domain in Cloud Console. */
+  var PSI_KEY = "";
+
+  function psiCacheGet(strategy) {
+    try { return JSON.parse(localStorage.getItem("tf_psi_" + strategy) || "null"); } catch (e) { return null; }
+  }
+  function psiCacheSet(strategy, data) {
+    try { localStorage.setItem("tf_psi_" + strategy, JSON.stringify(data)); } catch (e) {}
+  }
+  function timeAgo(ts) {
+    var m = Math.round((Date.now() - ts) / 60000);
+    if (m < 1) return "just now";
+    if (m < 60) return m + " min ago";
+    var h = Math.round(m / 60);
+    if (h < 24) return h + (h === 1 ? " hour ago" : " hours ago");
+    var d = Math.round(h / 24);
+    return d + (d === 1 ? " day ago" : " days ago");
+  }
+
   function renderPerformance(page) {
     page.innerHTML =
       '<div class="perf-meta rv">' +
@@ -613,7 +631,9 @@
       '  <button class="btn" id="psi-run">' +
       '    <svg id="psi-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>' +
       '    <span id="psi-label">Run live test</span></button>' +
-      '  <span class="kpi__hint" id="psi-status">Powered by Google PageSpeed Insights · tests the live website</span>' +
+      '  <a class="btn btn--ghost" id="psi-full" href="#" target="_blank" rel="noopener">Full Google report&nbsp;' +
+      '    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>' +
+      '  <span class="kpi__hint" id="psi-status">Google PageSpeed Insights · real tests of your live website</span>' +
       "</div>" +
       '<div class="gauges" id="gauges"></div>' +
       '<div class="grid grid--two">' +
@@ -627,7 +647,10 @@
       '      <li><strong>Best Practices</strong> — security and modern web standards.</li>' +
       '      <li><strong>SEO</strong> — how easily Google can read and rank your pages.</li>' +
       "    </div></div>" +
-      "</div>";
+      "</div>" +
+      '<div class="card rv" id="opps-card" hidden><div class="card__head"><div><p class="card__title">Top opportunities</p>' +
+      '  <p class="card__sub">Where the biggest speed gains are — TaskFloVA works through these for you</p></div></div>' +
+      '  <div class="cwv" id="opps"></div></div>';
 
     var gaugeDefs = [
       ["performance", "Performance", "Loading speed"],
@@ -643,7 +666,7 @@
 
     var CWV_META = [
       ["lcp", "Largest Contentful Paint", "Main content visible", [2.5, 4.0]],
-      ["inp", "Interaction to Next Paint", "Response to taps & clicks", [0.2, 0.5]],
+      ["tbt", "Total Blocking Time", "Page stays responsive", [200, 600]],
       ["cls", "Cumulative Layout Shift", "Visual stability", [0.1, 0.25]],
       ["fcp", "First Contentful Paint", "First text or image", [1.8, 3.0]]
     ];
@@ -652,7 +675,8 @@
       host.innerHTML = "";
       CWV_META.forEach(function (m) {
         var raw = values[m[0]];
-        var num = parseFloat(raw);
+        if (raw == null) return;
+        var num = parseFloat(String(raw).replace(/,/g, ""));
         var band = num <= m[3][0] ? "good" : num <= m[3][1] ? "warn" : "bad";
         var label = { good: "GOOD", warn: "OK", bad: "POOR" }[band];
         host.appendChild(el("div", "cwv__row",
@@ -664,54 +688,109 @@
     function paintScores(s) {
       for (var k in cards) setGauge(cards[k], s[k]);
     }
+    function paintOpps(opps) {
+      var card = $("#opps-card", page), host = $("#opps", page);
+      host.innerHTML = "";
+      if (!opps) return;
+      card.hidden = false;
+      if (!opps.length) {
+        host.appendChild(el("p", "card__sub", "No major speed opportunities found — the site is in good shape."));
+        return;
+      }
+      opps.forEach(function (o) {
+        var secs = (o.savingsMs / 1000).toFixed(1);
+        host.appendChild(el("div", "cwv__row",
+          '<span class="cwv__badge cwv__badge--warn">~' + secs + "s</span>" +
+          '<span class="cwv__name">' + o.title + "<em>estimated time saved if fixed</em></span>"));
+      });
+    }
+    function paint(result, statusText) {
+      paintScores(result.scores);
+      paintCwv(result.cwv);
+      paintOpps(result.opps);
+      $("#psi-status", page).textContent = statusText;
+    }
 
-    function runPsi(strategy) {
-      var btn = $("#psi-run", page), label = $("#psi-label", page), status = $("#psi-status", page), icon = $("#psi-icon", page);
+    var strategy = "mobile";
+    var target = SITE_URL;
+    function syncFullLink() {
+      $("#psi-full", page).href = "https://pagespeed.web.dev/analysis?url=" + encodeURIComponent(target) + "&form_factor=" + strategy;
+    }
+
+    function runPsi() {
+      var btn = $("#psi-run", page), label = $("#psi-label", page), icon = $("#psi-icon", page), status = $("#psi-status", page);
       btn.disabled = true; label.textContent = "Testing live site…"; icon.classList.add("spin");
-      status.textContent = "Running Google PageSpeed on " + SITE_URL.replace("https://", "") + " (" + strategy + ") — takes ~20 seconds";
-      var api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=" + encodeURIComponent(SITE_URL) +
-        "&strategy=" + strategy + "&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO";
+      status.textContent = "Running Google PageSpeed on " + target.replace("https://", "") + " (" + strategy + ") — takes ~20 seconds";
+      var api = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=" + encodeURIComponent(target) +
+        "&strategy=" + strategy + "&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO" +
+        (PSI_KEY ? "&key=" + PSI_KEY : "");
       fetch(api).then(function (r) {
         if (!r.ok) throw new Error("PSI " + r.status);
         return r.json();
       }).then(function (j) {
-        var cats = j.lighthouseResult.categories;
-        paintScores({
-          performance: Math.round(cats.performance.score * 100),
-          accessibility: Math.round(cats.accessibility.score * 100),
-          "best-practices": Math.round(cats["best-practices"].score * 100),
-          seo: Math.round(cats.seo.score * 100)
-        });
-        var a = j.lighthouseResult.audits;
-        paintCwv({
-          lcp: a["largest-contentful-paint"].displayValue.replace(/ /g, " "),
-          inp: a["interactive"] ? (parseFloat(a["interactive"].numericValue / 1000).toFixed(1) + " s") : "—",
-          cls: a["cumulative-layout-shift"].displayValue,
-          fcp: a["first-contentful-paint"].displayValue.replace(/ /g, " ")
-        });
-        status.textContent = "Live result · tested " + new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) + " · " + strategy;
+        var lr = j.lighthouseResult, cats = lr.categories, a = lr.audits;
+        var opps = Object.keys(a).map(function (k) { return a[k]; }).filter(function (x) {
+          return x.details && x.details.type === "opportunity" && (x.details.overallSavingsMs || 0) >= 150;
+        }).sort(function (x, y) { return y.details.overallSavingsMs - x.details.overallSavingsMs; })
+          .slice(0, 4).map(function (x) {
+            return { title: x.title, savingsMs: x.details.overallSavingsMs };
+          });
+        var result = {
+          scores: {
+            performance: Math.round(cats.performance.score * 100),
+            accessibility: Math.round(cats.accessibility.score * 100),
+            "best-practices": Math.round(cats["best-practices"].score * 100),
+            seo: Math.round(cats.seo.score * 100)
+          },
+          cwv: {
+            lcp: a["largest-contentful-paint"].displayValue,
+            tbt: a["total-blocking-time"] ? a["total-blocking-time"].displayValue : null,
+            cls: a["cumulative-layout-shift"].displayValue,
+            fcp: a["first-contentful-paint"].displayValue
+          },
+          opps: opps,
+          testedAt: Date.now(),
+          url: target
+        };
+        psiCacheSet(strategy, result);
+        paint(result, "Live Google result · " + target.replace("https://", "") + " · " + strategy + " · just now");
       }).catch(function () {
-        paintScores(FALLBACK.scores);
-        paintCwv(FALLBACK.cwv);
-        status.textContent = "Showing last saved results — live test unavailable right now.";
+        var cached = psiCacheGet(strategy);
+        if (cached) {
+          paint(cached, "Google is busy right now — showing your last real result from " + timeAgo(cached.testedAt) + ". Try again in a minute.");
+        } else {
+          status.textContent = "Google PageSpeed is busy right now — press “Run live test” to try again in a minute.";
+        }
       }).finally(function () {
         btn.disabled = false; label.textContent = "Run live test"; icon.classList.remove("spin");
       });
     }
 
-    var strategy = "mobile";
+    function start() {
+      syncFullLink();
+      var cached = psiCacheGet(strategy);
+      if (cached && cached.url === target) {
+        paint(cached, "Last real result · " + timeAgo(cached.testedAt) + " · refreshing now…");
+      }
+      runPsi();
+    }
+
     $$(".seg button", page).forEach(function (b) {
       b.addEventListener("click", function () {
         $$(".seg button", page).forEach(function (x) { x.classList.remove("is-on"); });
         b.classList.add("is-on");
         strategy = b.dataset.strategy;
-        runPsi(strategy);
+        start();
       });
     });
-    $("#psi-run", page).addEventListener("click", function () { runPsi(strategy); });
+    $("#psi-run", page).addEventListener("click", runPsi);
 
     stagger(page);
-    runPsi("mobile");
+    /* test the WordPress install that actually answered the stats call */
+    loadStats().then(function (D) {
+      if (D.siteOrigin) target = D.siteOrigin;
+      start();
+    });
   }
 
   /* ============================ PAGE: TUTORIALS ============================ */
