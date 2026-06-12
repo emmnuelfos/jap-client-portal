@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Client Portal — J.A.P. Senior Care Services | TaskFloVA</title>
+<meta name="description" content="Private client portal by TaskFloVA for J.A.P. Senior Care Services.">
+<link rel="icon" type="image/svg+xml" href="assets/img/tf-blue.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/portal.css">
+</head>
+<body>
+
+<!-- ====================== LOGIN GATE ====================== -->
+<div class="gate" id="gate">
+  <div class="gate__aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="gate__grain" aria-hidden="true"></div>
+  <div class="gate__card" role="dialog" aria-labelledby="gate-title">
+    <img class="gate__logo" src="assets/img/tf-white.svg" alt="TaskFloVA">
+    <div class="gate__divider"><span></span><em>CLIENT PORTAL</em><span></span></div>
+    <h1 id="gate-title" class="gate__client">J.A.P. Senior Care<br>Services</h1>
+    <p class="gate__hint">This portal is private. Enter the access key provided by your TaskFloVA team.</p>
+    <form class="gate__form" id="gate-form" autocomplete="off">
+      <div class="gate__field">
+        <label for="gate-pass">Access key</label>
+        <div class="gate__inputwrap">
+          <input type="password" id="gate-pass" name="password" placeholder="••••••••••••" autocomplete="current-password" required>
+          <button type="button" class="gate__eye" id="gate-eye" aria-label="Show password">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="gate__error" id="gate-error" role="alert" hidden>That key isn't right. Check your welcome email or contact TaskFloVA.</p>
+      </div>
+      <button type="submit" class="gate__btn" id="gate-btn">
+        <span class="gate__btn-label">Unlock portal</span>
+        <svg class="gate__btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+      </button>
+    </form>
+    <p class="gate__foot">Crafted &amp; managed by <strong>TaskFloVA</strong> for J.A.P. Senior Care Services</p>
+  </div>
+</div>
+
+<!-- ====================== APP SHELL ====================== -->
+<div class="app" id="app" hidden>
+  <aside class="side" aria-label="Portal navigation">
+    <div class="side__brand">
+      <img src="assets/img/tf-white.svg" alt="TaskFloVA" class="side__logo">
+    </div>
+    <div class="side__client">
+      <span class="side__client-mark" aria-hidden="true">JP</span>
+      <span class="side__client-meta">
+        <strong>J.A.P. Senior Care</strong>
+        <em>Client workspace</em>
+      </span>
+    </div>
+    <nav class="side__nav">
+      <p class="side__nav-label">Overview</p>
+      <a href="#dashboard" class="side__link" data-page="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#performance" class="side__link" data-page="performance">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 1 8-8"/><path d="m12 12 5-3"/><path d="M16.5 17.5 21 22"/><circle cx="12" cy="12" r="1.6"/></svg>
+        <span>Performance</span>
+      </a>
+      <a href="#tutorials" class="side__link" data-page="tutorials">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="m9.5 8 3 2-3 2V8Z"/></svg>
+        <span>Website Tutorials</span>
+      </a>
+      <p class="side__nav-label">Your website</p>
+      <a href="https://japseniorservicesllc.com" target="_blank" rel="noopener" class="side__link side__link--ext">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14.5 14.5 0 0 1 0 18 14.5 14.5 0 0 1 0-18Z"/></svg>
+        <span>Visit live site</span>
+        <svg class="side__ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+      </a>
+      <a href="https://japseniorservicesllc.com/wp-admin" target="_blank" rel="noopener" class="side__link side__link--ext">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+        <span>WordPress admin</span>
+        <svg class="side__ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+      </a>
+    </nav>
+    <div class="side__foot">
+      <button class="side__logout" id="logout">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        <span>Lock portal</span>
+      </button>
+      <p class="side__credit">Managed by TaskFloVA</p>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="topbar__burger" id="burger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar__title">
+        <h2 id="page-title">Dashboard</h2>
+        <p id="page-sub">Your website at a glance</p>
+      </div>
+      <div class="topbar__right">
+        <span class="topbar__live"><i></i>Site online</span>
+        <span class="topbar__date" id="topbar-date"></span>
+        <span class="topbar__avatar" title="J.A.P. Senior Care Services">JP</span>
+      </div>
+    </header>
+    <main class="content" id="content" tabindex="-1">
+      <!-- pages injected by portal.js -->
+      <section class="page" id="page-dashboard" data-title="Dashboard" data-sub="Your website at a glance"></section>
+      <section class="page" id="page-performance" data-title="Performance" data-sub="Page speed &amp; Core Web Vitals" hidden></section>
+      <section class="page" id="page-tutorials" data-title="Website Tutorials" data-sub="Learn to manage your website, step by step" hidden></section>
+    </main>
+    <footer class="appfoot">
+      <img src="assets/img/tf-white.svg" alt="TaskFloVA" class="appfoot__logo">
+      <p>Client portal crafted for <strong>J.A.P. Senior Care Services</strong> · Birmingham, AL</p>
+    </footer>
+  </div>
+</div>
+
+<script src="assets/js/portal.js"></script>
+</body>
+</html>
