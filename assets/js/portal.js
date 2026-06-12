@@ -803,10 +803,10 @@
           id: "login", title: "Log in to WordPress", time: "2 min",
           icon: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
           demo: [
-            { img: "login-1", hot: { x: 37.92, y: 23.71, w: 24.17, h: 28.76 },
+            { img: "login-1", hot: { x: 37.92, y: 22.82, w: 24.17, h: 28.76 },
               cap: "Go to <strong>japseniorservicesllc.com/wp-admin</strong> — your own branded sign-in screen. Type the <strong>username</strong> and <strong>password</strong> from your TaskFloVA welcome email.",
               sub: "Tip: let your browser save them — one less thing to remember." },
-            { img: "login-2", hot: { x: 55.13, y: 44.47, w: 5.0, h: 4.89 },
+            { img: "login-2", hot: { x: 53.57, y: 43.59, w: 6.57, h: 4.89 },
               cap: "Click <strong>Log In</strong> and you're in." },
             { img: "login-3", hot: { x: 12.22, y: 12.32, w: 86.81, h: 46.93 },
               cap: "You land in your <strong>control room</strong> — these tiles cover everything you'll do day to day.",
@@ -823,14 +823,14 @@
           id: "tour", title: "Find your way around WordPress", time: "3 min",
           icon: '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
           demo: [
-            { img: "tour-1", hot: { x: 0.0, y: 4.22, w: 11.94, h: 36.06 },
+            { img: "tour-1", hot: { x: 0.0, y: 4.44, w: 11.94, h: 43.17 },
               cap: "Your <strong>left menu</strong> has exactly what you need: Pages, Posts, Media and Inquiries — no technical clutter.", sub: "TaskFloVA manages everything else behind the scenes." },
             { img: "tour-2", hot: { x: 12.22, y: 24.34, w: 86.81, h: 78.1 },
               cap: "<strong>Pages</strong> holds your permanent website pages — Home, Services, About, Contact, Careers, FAQs and Blog.",
               sub: "These are edited with Elementor — covered in the next walkthrough." },
             { img: "tour-3", hot: { x: 12.22, y: 24.34, w: 86.81, h: 53.69 },
               cap: "<strong>Posts</strong> holds your blog articles. Your three launch articles already live here." },
-            { img: "tour-4", hot: { x: 12.22, y: 24.9, w: 86.81, h: 78.61 },
+            { img: "tour-4", hot: { x: 12.22, y: 24.9, w: 86.81, h: 95.75 },
               cap: "<strong>Media</strong> is your photo library — every image on the website lives in this grid." }
           ],
           steps: [
@@ -902,7 +902,7 @@
             { img: "media-2", hot: { x: 12.22, y: 10.99, w: 86.81, h: 24.44 },
               cap: "Drag photos from your computer straight into this box — or click <strong>Select Files</strong> to browse.",
               sub: "Clear file names like caregiver-with-client.jpg help Google understand your photos." },
-            { img: "media-3", hot: { x: 76.01, y: 29.89, w: 21.15, h: 6.89 },
+            { img: "media-3", hot: { x: 76.01, y: 27.89, w: 21.15, h: 6.89 },
               cap: "Click the uploaded photo and fill in <strong>Alternative Text</strong> — one sentence describing what's in it.",
               sub: "It helps Google find you, and helps visitors who use screen readers." }
           ],
