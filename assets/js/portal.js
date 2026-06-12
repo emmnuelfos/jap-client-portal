@@ -766,13 +766,23 @@
       });
     }
 
-    function start() {
+    /* show the saved report only — a new test runs ONLY on the button */
+    function showSaved() {
       syncFullLink();
       var cached = psiCacheGet(strategy);
       if (cached && cached.url === target) {
-        paint(cached, "Last real result · " + timeAgo(cached.testedAt) + " · refreshing now…");
+        paint(cached, "Saved report · " + strategy + " · tested " + timeAgo(cached.testedAt) + " — press “Run live test” for a fresh one");
+      } else {
+        $$(".gauge-card", page).forEach(function (card) {
+          var num = $(".gauge__num", card), arc = $(".gauge__arc", card);
+          num.classList.remove("skel", "score-good", "score-warn", "score-bad");
+          num.textContent = "—";
+          arc.style.strokeDasharray = "0 999";
+        });
+        $("#cwv", page).innerHTML = '<p class="card__sub">No saved report for ' + strategy + ' yet.</p>';
+        paintOpps(null);
+        $("#psi-status", page).textContent = "No " + strategy + " report saved yet — press “Run live test” to generate your first one.";
       }
-      runPsi();
     }
 
     $$(".seg button", page).forEach(function (b) {
@@ -780,16 +790,16 @@
         $$(".seg button", page).forEach(function (x) { x.classList.remove("is-on"); });
         b.classList.add("is-on");
         strategy = b.dataset.strategy;
-        start();
+        showSaved();
       });
     });
     $("#psi-run", page).addEventListener("click", runPsi);
 
     stagger(page);
-    /* test the WordPress install that actually answered the stats call */
+    /* resolve which WordPress install to test, then show the saved report */
     loadStats().then(function (D) {
       if (D.siteOrigin) target = D.siteOrigin;
-      start();
+      showSaved();
     });
   }
 
