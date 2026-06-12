@@ -610,11 +610,11 @@
 
   /* Launch-day baseline (real PageSpeed results from June 13, 2026, after the
      production domain went live) — shown until a browser runs its own test. */
-  var PSI_SEED_TS = 1781222400000;
+  var PSI_SEED_TS = 1781280000000;
   var PSI_SEED_URL = "https://japseniorservicesllc.com";
   var PSI_SEED = {
     mobile: {
-      scores: { performance: 71, accessibility: 89, "best-practices": 100, seo: 100 },
+      scores: { performance: 81, accessibility: 89, "best-practices": 100, seo: 100 },
       cwv: { lcp: "3.3 s", tbt: "100 ms", cls: "0.002", fcp: "1.7 s" },
       opps: [], testedAt: PSI_SEED_TS, url: PSI_SEED_URL
     },
@@ -628,10 +628,10 @@
   /* one live test per week */
   var PSI_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
   function psiLastRun() {
-    var v = parseInt(localStorage.getItem("tf_psi_lastrun") || "0", 10);
+    var v = parseInt(localStorage.getItem("tf_psi2_lastrun") || "0", 10);
     if (!v) {
       v = PSI_SEED_TS;
-      try { localStorage.setItem("tf_psi_lastrun", String(v)); } catch (e) {}
+      try { localStorage.setItem("tf_psi2_lastrun", String(v)); } catch (e) {}
     }
     return v;
   }
@@ -644,10 +644,10 @@
   }
 
   function psiCacheGet(strategy) {
-    try { return JSON.parse(localStorage.getItem("tf_psi_" + strategy) || "null"); } catch (e) { return null; }
+    try { return JSON.parse(localStorage.getItem("tf_psi2_" + strategy) || "null"); } catch (e) { return null; }
   }
   function psiCacheSet(strategy, data) {
-    try { localStorage.setItem("tf_psi_" + strategy, JSON.stringify(data)); } catch (e) {}
+    try { localStorage.setItem("tf_psi2_" + strategy, JSON.stringify(data)); } catch (e) {}
   }
   function timeAgo(ts) {
     var m = Math.round((Date.now() - ts) / 60000);
@@ -806,7 +806,7 @@
           url: target
         };
         psiCacheSet(strategy, result);
-        try { localStorage.setItem("tf_psi_lastrun", String(Date.now())); } catch (e) {}
+        try { localStorage.setItem("tf_psi2_lastrun", String(Date.now())); } catch (e) {}
         paint(result, "Live Google result · " + target.replace("https://", "") + " · " + strategy + " · just now");
       }).catch(function () {
         var cached = psiCacheGet(strategy) || PSI_SEED[strategy];
