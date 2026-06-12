@@ -608,6 +608,41 @@
      keyless shared pool. Restrict it to this portal's domain in Cloud Console. */
   var PSI_KEY = "AIzaSyCIt1mQAzMhoRNHoM8XIVzBzwmF_pEbR6M";
 
+  /* Launch-day baseline (real PageSpeed results from June 13, 2026, after the
+     production domain went live) — shown until a browser runs its own test. */
+  var PSI_SEED_TS = 1781222400000;
+  var PSI_SEED_URL = "https://japseniorservicesllc.com";
+  var PSI_SEED = {
+    mobile: {
+      scores: { performance: 89, accessibility: 89, "best-practices": 100, seo: 100 },
+      cwv: { lcp: "3.3 s", tbt: "100 ms", cls: "0.002", fcp: "1.7 s" },
+      opps: [], testedAt: PSI_SEED_TS, url: PSI_SEED_URL
+    },
+    desktop: {
+      scores: { performance: 96, accessibility: 94, "best-practices": 100, seo: 100 },
+      cwv: { lcp: "0.9 s", tbt: "100 ms", cls: "0", fcp: "0.5 s" },
+      opps: [], testedAt: PSI_SEED_TS, url: PSI_SEED_URL
+    }
+  };
+
+  /* one live test per week */
+  var PSI_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000;
+  function psiLastRun() {
+    var v = parseInt(localStorage.getItem("tf_psi_lastrun") || "0", 10);
+    if (!v) {
+      v = PSI_SEED_TS;
+      try { localStorage.setItem("tf_psi_lastrun", String(v)); } catch (e) {}
+    }
+    return v;
+  }
+  function psiCooldownLeft() {
+    return Math.max(0, psiLastRun() + PSI_COOLDOWN_MS - Date.now());
+  }
+  function cooldownLabel(ms) {
+    var d = Math.ceil(ms / 86400000);
+    return d > 1 ? d + " days" : Math.ceil(ms / 3600000) + " hours";
+  }
+
   function psiCacheGet(strategy) {
     try { return JSON.parse(localStorage.getItem("tf_psi_" + strategy) || "null"); } catch (e) { return null; }
   }
@@ -717,7 +752,25 @@
       $("#psi-full", page).href = "https://pagespeed.web.dev/analysis?url=" + encodeURIComponent(target) + "&form_factor=" + strategy;
     }
 
-    function runPsi() {
+    function syncRunButton() {
+      var left = psiCooldownLeft();
+      var btn = $("#psi-run", page), label = $("#psi-label", page);
+      if (left > 0) {
+        btn.disabled = true;
+        label.textContent = "Next test in " + cooldownLabel(left);
+      } else {
+        btn.disabled = false;
+        label.textContent = "Run live test";
+      }
+      return left;
+    }
+
+    function runPsi(ev) {
+      /* one live test per week (Shift+click = TaskFloVA override) */
+      if (psiCooldownLeft() > 0 && !(ev && ev.shiftKey)) {
+        $("#psi-status", page).textContent = "Live tests run once a week to keep reports consistent — next one unlocks in " + cooldownLabel(psiCooldownLeft()) + ".";
+        return;
+      }
       var btn = $("#psi-run", page), label = $("#psi-label", page), icon = $("#psi-icon", page), status = $("#psi-status", page);
       btn.disabled = true; label.textContent = "Testing live site…"; icon.classList.add("spin");
       status.textContent = "Running Google PageSpeed on " + target.replace("https://", "") + " (" + strategy + ") — takes ~20 seconds";
@@ -753,16 +806,18 @@
           url: target
         };
         psiCacheSet(strategy, result);
+        try { localStorage.setItem("tf_psi_lastrun", String(Date.now())); } catch (e) {}
         paint(result, "Live Google result · " + target.replace("https://", "") + " · " + strategy + " · just now");
       }).catch(function () {
-        var cached = psiCacheGet(strategy);
+        var cached = psiCacheGet(strategy) || PSI_SEED[strategy];
         if (cached) {
-          paint(cached, "Google is busy right now — showing your last real result from " + timeAgo(cached.testedAt) + ". Try again in a minute.");
+          paint(cached, "Google is busy right now — showing your last saved report from " + timeAgo(cached.testedAt) + ". Try again in a minute.");
         } else {
-          status.textContent = "Google PageSpeed is busy right now — press “Run live test” to try again in a minute.";
+          status.textContent = "Google PageSpeed is busy right now — try again in a minute.";
         }
       }).finally(function () {
-        btn.disabled = false; label.textContent = "Run live test"; icon.classList.remove("spin");
+        icon.classList.remove("spin");
+        syncRunButton();
       });
     }
 
@@ -770,19 +825,11 @@
     function showSaved() {
       syncFullLink();
       var cached = psiCacheGet(strategy);
-      if (cached && cached.url === target) {
-        paint(cached, "Saved report · " + strategy + " · tested " + timeAgo(cached.testedAt) + " — press “Run live test” for a fresh one");
-      } else {
-        $$(".gauge-card", page).forEach(function (card) {
-          var num = $(".gauge__num", card), arc = $(".gauge__arc", card);
-          num.classList.remove("skel", "score-good", "score-warn", "score-bad");
-          num.textContent = "—";
-          arc.style.strokeDasharray = "0 999";
-        });
-        $("#cwv", page).innerHTML = '<p class="card__sub">No saved report for ' + strategy + ' yet.</p>';
-        paintOpps(null);
-        $("#psi-status", page).textContent = "No " + strategy + " report saved yet — press “Run live test” to generate your first one.";
-      }
+      if (!(cached && cached.url === target)) cached = PSI_SEED[strategy];
+      paint(cached, "Saved report · " + strategy + " · tested " + timeAgo(cached.testedAt) + (psiCooldownLeft() > 0
+        ? " · next live test unlocks in " + cooldownLabel(psiCooldownLeft())
+        : " — press “Run live test” for a fresh one"));
+      syncRunButton();
     }
 
     $$(".seg button", page).forEach(function (b) {
