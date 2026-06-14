@@ -1045,6 +1045,25 @@
     }
   ];
 
+  /* ---------- gallery categories + helpers ---------- */
+  var CAT_META = {
+    "Getting started":      { short: "Getting Started", accent: "#1FC8E0", grad: ["#0E7E92", "#0A2156"] },
+    "Editing your website": { short: "Editing",         accent: "#FD5757", grad: ["#B23A3A", "#3A1230"] },
+    "Forms & inquiries":    { short: "Forms",           accent: "#2BD9A3", grad: ["#1E8E6B", "#0A2A33"] },
+    "Good to know":         { short: "Good to Know",    accent: "#FFC24B", grad: ["#B07A14", "#3A2A0A"] }
+  };
+  var TUT_FLAT = [];
+  TUTS.forEach(function (g) {
+    g.items.forEach(function (t) {
+      var copy = {}; for (var k in t) copy[k] = t[k];
+      copy.cat = g.group;
+      copy.thumb = null;
+      for (var s = 0; s < t.demo.length; s++) { if (t.demo[s].img) { copy.thumb = t.demo[s].img; break; } }
+      TUT_FLAT.push(copy);
+    });
+  });
+  var TUT_FEATURED = ["login", "tour", "elementor"]; /* the essential first guides */
+
   /* ---------- demo player (video-style walkthrough) ---------- */
   var demoEl = null, demoState = { steps: [], i: 0, playing: false, timer: null, title: "" };
   var STEP_MS = 7000;
@@ -1056,10 +1075,13 @@
       '<div class="demo__box" role="dialog" aria-modal="true" aria-label="Tutorial walkthrough">' +
       '  <div class="demo__head"><img src="assets/img/tf-white.svg" alt="TaskFloVA"><h3 id="demo-title"></h3>' +
       '    <span class="demo__count" id="demo-count"></span>' +
+      '    <button class="demo__steps-btn" id="demo-steps-btn" aria-label="Toggle written steps">' +
+      '      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg><span>Steps</span></button>' +
       '    <button class="demo__close" id="demo-close" aria-label="Close walkthrough">' +
       '      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>' +
       '  <div class="demo__bars" id="demo-bars"></div>' +
-      '  <div class="demo__stage" id="demo-stage"><div class="demo__ring" id="demo-ring"></div></div>' +
+      '  <div class="demo__stage" id="demo-stage"><div class="demo__ring" id="demo-ring"></div>' +
+      '    <div class="demo__steps" id="demo-steps"></div></div>' +
       '  <div class="demo__foot"><div class="demo__cap" id="demo-cap"></div>' +
       '    <div class="demo__nav">' +
       '      <button class="demo__btn" id="demo-prev" aria-label="Previous step"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>' +
@@ -1068,6 +1090,9 @@
       '    </div></div></div>';
     document.body.appendChild(demoEl);
     $("#demo-close").addEventListener("click", closeDemo);
+    $("#demo-steps-btn").addEventListener("click", function () {
+      $(".demo__box", demoEl).classList.toggle("show-steps");
+    });
     demoEl.addEventListener("click", function (e) { if (e.target === demoEl) closeDemo(); });
     $("#demo-prev").addEventListener("click", function () { go(demoState.i - 1, true); });
     $("#demo-next").addEventListener("click", function () { go(demoState.i + 1, true); });
@@ -1162,6 +1187,9 @@
     demoState.steps = tut.demo;
     demoState.title = tut.title;
     $("#demo-title").textContent = tut.title;
+    $(".demo__box", demoEl).classList.remove("show-steps");
+    $("#demo-steps").innerHTML = '<p class="demo__steps-title">Written steps</p><ol>' +
+      (tut.steps || []).map(function (s) { return "<li>" + s + "</li>"; }).join("") + "</ol>";
     var bars = $("#demo-bars");
     bars.innerHTML = "";
     tut.demo.forEach(function (_, bi) {
@@ -1185,28 +1213,39 @@
   }
 
   function renderTutorials(page) {
-    var total = TUTS.reduce(function (s, g) { return s + g.items.length; }, 0);
+    var total = TUT_FLAT.length;
     var doneSet = {};
     try { doneSet = JSON.parse(localStorage.getItem("tf_tuts") || "{}"); } catch (e) {}
 
-    var R = 30, C = 2 * Math.PI * R;
+    function playSvg(d) {
+      return '<svg width="' + d + '" height="' + d + '" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z"/></svg>';
+    }
+
+    var R = 22, C = 2 * Math.PI * R;
     page.innerHTML =
-      '<div class="tut-progress rv">' +
-      '  <div class="tut-progress__ring"><svg width="72" height="72" viewBox="0 0 72 72">' +
-      '    <circle cx="36" cy="36" r="' + R + '" stroke="rgba(31,200,224,.1)"/>' +
-      '    <circle id="prog-arc" cx="36" cy="36" r="' + R + '" stroke="#1FC8E0"/></svg>' +
-      '    <span class="tut-progress__num" id="prog-num"></span></div>' +
-      '  <div><h3>Your onboarding journey</h3>' +
-      '  <p>Press play on any guide for a guided walkthrough of your real website — or expand the written steps. Progress is saved on this device.</p></div>' +
-      "</div><div id='tut-groups'></div>";
+      '<div class="tut2-head rv">' +
+      '  <div><h3>Website Tutorials</h3>' +
+      '    <p>Short guided walkthroughs filmed on your own website. Pick a guide and press play — captions point to exactly where to click.</p></div>' +
+      '  <div class="tut2-prog"><div class="tut2-prog__ring"><svg width="40" height="40" viewBox="0 0 40 40">' +
+      '    <circle cx="20" cy="20" r="' + R + '" stroke="rgba(31,200,224,.12)"/>' +
+      '    <circle id="prog-arc" cx="20" cy="20" r="' + R + '" stroke="#1FC8E0"/></svg>' +
+      '    <span class="tut2-prog__num" id="prog-num"></span></div>' +
+      '    <span class="tut2-prog__txt" id="prog-txt"></span></div>' +
+      '</div>' +
+      '<p class="tut2-section-label rv" id="feat-label">Start here</p>' +
+      '<div class="tut2-featured rv" id="tut-featured"></div>' +
+      '<div class="tut2-filterbar rv"><div class="tut2-pills" id="tut-pills"></div></div>' +
+      '<div class="tut2-grid rv" id="tut-grid"></div>';
 
-    var groupsHost = $("#tut-groups", page);
-
-    function progress() {
+    function refreshDone() {
+      $$("[data-tutid]", page).forEach(function (n) {
+        n.classList.toggle("is-done", !!doneSet[n.getAttribute("data-tutid")]);
+      });
       var done = Object.keys(doneSet).filter(function (k) { return doneSet[k]; }).length;
-      $("#prog-num", page).textContent = done + "/" + total;
+      $("#prog-num", page).textContent = done;
+      $("#prog-txt", page).innerHTML = "<strong>" + done + "</strong> of " + total + " complete";
       var arc = $("#prog-arc", page);
-      arc.style.strokeDasharray = (done / total) * C + " " + C;
+      arc.style.strokeDasharray = (total ? done / total : 0) * C + " " + C;
       arc.style.transition = "stroke-dasharray .9s cubic-bezier(.22,.9,.26,1)";
     }
 
@@ -1226,54 +1265,84 @@
       }
     }
 
-    TUTS.forEach(function (g) {
-      var grp = el("div", "tut-group rv");
-      grp.appendChild(el("p", "tut-group__label", g.group));
-      var grid = el("div", "tut-grid");
-      g.items.forEach(function (t) {
-        var card = el("article", "card tut" + (doneSet[t.id] ? " is-done" : ""));
-        card.innerHTML =
-          '<div class="tut__head">' +
-          '  <span class="tut__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + t.icon + "</svg></span>" +
-          '  <div class="tut__meta"><h4>' + t.title + "</h4><p>" + t.demo.length + " steps · " + t.time + "</p></div>" +
-          '  <div class="tut__state">' +
-          '  <button class="tut__watch"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z"/></svg>Play</button>' +
-          '  <span class="tut__done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>' +
-          '  <svg class="tut__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></div></div>' +
-          '<div class="tut__body"><div class="tut__body-inner"><ol class="tut__steps">' +
-          t.steps.map(function (s) { return "<li>" + s + "</li>"; }).join("") +
-          '</ol><div class="tut__actions"><button class="tut__mark">' +
-          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
-          "<span></span></button></div></div></div>";
-        var markBtn = $(".tut__mark", card);
-        function markLabel() {
-          $("span", markBtn).textContent = doneSet[t.id] ? "Completed" : "Mark as done";
-        }
-        markLabel();
-        $(".tut__head", card).addEventListener("click", function () {
-          card.classList.toggle("is-open");
-        });
-        $(".tut__watch", card).addEventListener("click", function (e) {
-          e.stopPropagation();
-          openDemo(t);
-        });
-        markBtn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          doneSet[t.id] = !doneSet[t.id];
-          card.classList.toggle("is-done", !!doneSet[t.id]);
-          try { localStorage.setItem("tf_tuts", JSON.stringify(doneSet)); } catch (err) {}
-          markLabel(); progress();
-          if (doneSet[t.id]) {
-            var r = markBtn.getBoundingClientRect();
-            burst(r.left + r.width / 2, r.top);
-          }
-        });
-        grid.appendChild(card);
-      });
-      grp.appendChild(grid);
-      groupsHost.appendChild(grp);
+    function byId(id) { for (var i = 0; i < TUT_FLAT.length; i++) if (TUT_FLAT[i].id === id) return TUT_FLAT[i]; return null; }
+
+    /* ----- "Start here" featured cards ----- */
+    var featHost = $("#tut-featured", page);
+    TUT_FEATURED.forEach(function (id) {
+      var t = byId(id); if (!t) return;
+      var m = CAT_META[t.cat] || {};
+      var feat = el("article", "feat");
+      feat.setAttribute("data-tutid", t.id);
+      if (t.thumb) feat.style.backgroundImage = "url(" + TUT_IMG + t.thumb + ".webp)";
+      feat.innerHTML =
+        '<div class="feat__scrim"></div>' +
+        '<div class="feat__top"><span class="feat__cat"><i style="background:' + m.accent + '"></i>' + (m.short || t.cat) + '</span>' +
+        '<span class="feat__done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Completed</span></div>' +
+        '<span class="feat__play">' + playSvg(20) + '</span>' +
+        '<div class="feat__bottom"><span class="feat__eyebrow">Guide</span>' +
+        '<h4>' + t.title + '</h4><p>' + t.demo.length + ' steps · ' + t.time + '</p></div>';
+      feat.addEventListener("click", function () { openDemo(t); });
+      featHost.appendChild(feat);
     });
-    progress();
+
+    /* ----- category filter pills ----- */
+    var pillHost = $("#tut-pills", page);
+    var cats = [{ key: "all", label: "All", n: total }];
+    Object.keys(CAT_META).forEach(function (g) {
+      cats.push({ key: g, label: CAT_META[g].short, n: TUT_FLAT.filter(function (x) { return x.cat === g; }).length });
+    });
+    cats.forEach(function (c, ci) {
+      var b = el("button", "tut2-pill" + (ci === 0 ? " is-on" : ""), c.label + ' <em>' + c.n + '</em>');
+      b.setAttribute("data-cat", c.key);
+      b.addEventListener("click", function () {
+        $$(".tut2-pill", page).forEach(function (x) { x.classList.remove("is-on"); });
+        b.classList.add("is-on");
+        var key = c.key, all = key === "all";
+        $$(".gcard", page).forEach(function (g) {
+          g.classList.toggle("is-hidden", !all && g.getAttribute("data-cat") !== key);
+        });
+        $("#tut-featured", page).style.display = all ? "" : "none";
+        $("#feat-label", page).style.display = all ? "" : "none";
+      });
+      pillHost.appendChild(b);
+    });
+
+    /* ----- gallery grid ----- */
+    var gridHost = $("#tut-grid", page);
+    TUT_FLAT.forEach(function (t) {
+      var m = CAT_META[t.cat] || {};
+      var g = el("article", "gcard");
+      g.setAttribute("data-tutid", t.id);
+      g.setAttribute("data-cat", t.cat);
+      g.style.setProperty("--acc", m.accent);
+      var thumb;
+      if (t.thumb) {
+        thumb = '<div class="gcard__thumb" style="background-image:url(' + TUT_IMG + t.thumb + '.webp)">';
+      } else {
+        thumb = '<div class="gcard__thumb gcard__thumb--grad" style="--g1:' + m.grad[0] + ';--g2:' + m.grad[1] + '">' +
+          '<span class="gcard__gicon"><svg width="86" height="86" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">' + t.icon + '</svg></span>';
+      }
+      g.innerHTML = thumb +
+        '<div class="gcard__scrim"></div>' +
+        '<span class="gcard__play">' + playSvg(17) + '</span>' +
+        '<span class="gcard__time">' + t.time + '</span>' +
+        '<button class="gcard__check" aria-label="Mark this guide complete"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>' +
+        '</div>' +
+        '<div class="gcard__info"><span class="gcard__cat">' + (m.short || t.cat) + '</span>' +
+        '<h4>' + t.title + '</h4><p>' + t.demo.length + ' steps · ' + t.time + '</p></div>';
+      g.addEventListener("click", function () { openDemo(t); });
+      $(".gcard__check", g).addEventListener("click", function (e) {
+        e.stopPropagation();
+        doneSet[t.id] = !doneSet[t.id];
+        try { localStorage.setItem("tf_tuts", JSON.stringify(doneSet)); } catch (err) {}
+        refreshDone();
+        if (doneSet[t.id]) { var r = e.currentTarget.getBoundingClientRect(); burst(r.left + r.width / 2, r.top); }
+      });
+      gridHost.appendChild(g);
+    });
+
+    refreshDone();
     stagger(page);
   }
 })();
