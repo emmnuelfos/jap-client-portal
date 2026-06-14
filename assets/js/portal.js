@@ -880,14 +880,14 @@
           id: "tour", title: "Find your way around WordPress", time: "3 min",
           icon: '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
           demo: [
-            { img: "tour-1", hot: { x: 0.0, y: 4.44, w: 11.94, h: 91.19 },
+            { img: "tour-1", hot: { x: 0.0, y: 4.44, w: 11.94, h: 43.17 },
               cap: "Your <strong>left menu</strong> lists everything WordPress can do. The three you'll use most are <strong>Posts</strong>, <strong>Media</strong> and <strong>Pages</strong>.", sub: "The rest — Elementor, Settings, Plugins — are advanced tools your TaskFloVA team manages. You can safely ignore them." },
-            { img: "tour-2", hot: { x: 12.22, y: 19.23, w: 86.81, h: 78.1 },
+            { img: "tour-2", hot: { x: 12.22, y: 24.34, w: 86.81, h: 78.1 },
               cap: "<strong>Pages</strong> holds your permanent website pages — Home, Services, About, Contact, Careers, FAQs and Blog.",
               sub: "These are edited with Elementor — covered in the next walkthrough." },
-            { img: "tour-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 44.88 },
+            { img: "tour-3", hot: { x: 12.22, y: 24.34, w: 86.81, h: 53.69 },
               cap: "<strong>Posts</strong> holds your blog articles. Your three launch articles already live here." },
-            { img: "tour-4", hot: { x: 12.22, y: 18.97, w: 86.81, h: 95.75 },
+            { img: "tour-4", hot: { x: 12.22, y: 24.9, w: 86.81, h: 95.75 },
               cap: "<strong>Media</strong> is your photo library — every image on the website lives in this grid." }
           ],
           steps: [
@@ -901,13 +901,13 @@
       ]
     },
     {
-      group: "Editing your website",
+      group: "Editing pages",
       items: [
         {
           id: "elementor", title: "Edit a page with Elementor", time: "4 min",
           icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
           demo: [
-            { img: "elem-1", hot: { x: 0.0, y: 29.32, w: 8.69, h: 3.11 },
+            { img: "elem-1", hot: { x: 15.33, y: 34.43, w: 8.69, h: 3.11 },
               cap: "In <strong>Pages</strong>, hover over the page you want and click <strong>Edit with Elementor</strong>." },
             { img: "elem-2", hot: { x: 20.42, y: 4.67, w: 80.0, h: 100.0 },
               cap: "Your page opens looking exactly like the live website. Everything you see here can be clicked and changed." },
@@ -916,7 +916,7 @@
               sub: "Don't worry about breaking anything — every change can be undone with Ctrl + Z." },
             { img: "elem-4", hot: { x: 89.17, y: 0.0, w: 8.47, h: 6.67 },
               cap: "Happy with it? Click <strong>Update</strong> in the top-right corner. Your change is live right away.",
-              sub: "If the live page still shows the old version, see the 'Made a change?' guide below." }
+              sub: "If the live page still shows the old version, see the 'Made a change?' guide." }
           ],
           steps: [
             "From the WordPress sidebar choose <strong>Pages</strong>, hover a page, and click <strong>Edit with Elementor</strong>.",
@@ -927,6 +927,216 @@
           ]
         },
         {
+          id: "edit-text", title: "Change words & headings", time: "3 min",
+          icon: '<path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>',
+          demo: [
+            { img: "elem-2", hot: { x: 22, y: 14, w: 50, h: 14 },
+              cap: "Open the page with <strong>Edit with Elementor</strong>, then click directly on the text or heading you want to change." },
+            { img: "elem-3", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "Type your new words straight over the old ones — what you see is exactly what visitors will see.",
+              sub: "Keep headings short and clear; short paragraphs read best." },
+            { img: "elem-4", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "Click <strong>Update</strong> to save. Your new wording is live straight away." }
+          ],
+          steps: [
+            "Open the page with <strong>Edit with Elementor</strong>.",
+            "Click the text or heading and type over it.",
+            "Press <strong>Update</strong> (top right) to publish.",
+            "Tip: short, clear headings work best — and you can always undo with Ctrl + Z."
+          ]
+        },
+        {
+          id: "swap-image", title: "Swap a photo on a page", time: "3 min",
+          icon: '<path d="M16 3h5v5"/><path d="M21 3l-7 7"/><path d="M8 21H3v-5"/><path d="M3 21l7-7"/>',
+          demo: [
+            { img: "elem-2", hot: { x: 55, y: 22, w: 40, h: 55 },
+              cap: "In Elementor, click the <strong>photo</strong> you want to replace." },
+            { img: "elem-3", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "In the left panel, click the current image, then <strong>Choose Image</strong> to pick a new one from your library.",
+              sub: "Need a new photo first? Upload it under Media (see 'Add & manage photos')." },
+            { img: "elem-4", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "Click <strong>Update</strong> and the new photo is live." }
+          ],
+          steps: [
+            "In Elementor, click the photo you want to replace.",
+            "In the left panel click the image, then <strong>Choose Image</strong>.",
+            "Pick a photo from your library (or upload a new one).",
+            "Click <strong>Update</strong> to publish."
+          ]
+        },
+        {
+          id: "edit-button", title: "Edit a button — text & link", time: "3 min",
+          icon: '<rect x="2" y="6" width="20" height="12" rx="3"/><path d="M8 12h8"/>',
+          demo: [
+            { img: "elem-2", hot: { x: 22, y: 60, w: 30, h: 14 },
+              cap: "Click the <strong>button</strong> you want to change — for example 'Request a Free Consultation'." },
+            { img: "elem-3", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "In the left panel, edit the button <strong>text</strong>, and under <strong>Link</strong> set where it goes — a page, or a phone number like tel:+12052536537." },
+            { img: "elem-4", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "Click <strong>Update</strong> to save your new button." }
+          ],
+          steps: [
+            "Click the button in Elementor.",
+            "Change its <strong>text</strong> in the left panel.",
+            "Set the <strong>Link</strong> — a page address or a phone number (tel:+1…).",
+            "Press <strong>Update</strong> to publish."
+          ]
+        },
+        {
+          id: "responsive", title: "Check it on phones & tablets", time: "2 min",
+          icon: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
+          demo: [
+            { img: "elem-2", hot: { x: 33, y: 0, w: 18, h: 7 },
+              cap: "While editing in Elementor, look at the top of the screen for the <strong>device icons</strong> — monitor, tablet and phone." },
+            { img: "elem-2", hot: { x: 41, y: 0, w: 6, h: 7 },
+              cap: "Click the <strong>phone</strong> icon to preview exactly how your page looks on mobile — most of your visitors are on phones.",
+              sub: "Switch back to the monitor icon when you're done." },
+            { text: { h: "Edits here are mobile-only", p: "Anything you change while a device icon is selected only affects that screen size. Most of the time, leave it on the monitor view and the design adapts to phones automatically." } }
+          ],
+          steps: [
+            "While editing in Elementor, find the <strong>device icons</strong> at the top.",
+            "Click the <strong>phone</strong> icon to preview the mobile view.",
+            "Switch back to the monitor icon for normal editing.",
+            "Changes made on a device view only affect that screen size."
+          ]
+        },
+        {
+          id: "undo", title: "Undo a change safely", time: "2 min",
+          icon: '<path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/>',
+          demo: [
+            { text: { h: "Made a mistake? Don't worry", p: "Nothing you do in Elementor is permanent until you click Update — and even after that, every change can be undone." } },
+            { img: "elem-2", hot: { x: 8, y: 0, w: 7, h: 7 },
+              cap: "Press <strong>Ctrl + Z</strong> (or Cmd + Z on a Mac) to undo your last change. Keep pressing to step further back.",
+              sub: "The circular arrows at the top-left do the same thing." },
+            { text: { h: "Still stuck?", p: "Close the editor without clicking Update and nothing is saved. Or message TaskFloVA — we keep backups and can roll any page back to how it was." } }
+          ],
+          steps: [
+            "Press <strong>Ctrl + Z</strong> (Cmd + Z on Mac) to undo your last change.",
+            "Keep pressing to undo further; the undo arrows at the top-left do the same.",
+            "Nothing is saved until you click <strong>Update</strong> — so closing without saving discards changes.",
+            "TaskFloVA keeps backups and can restore any page."
+          ]
+        },
+        {
+          id: "add-page", title: "Add a brand-new page", time: "4 min",
+          icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 12v6"/><path d="M9 15h6"/>',
+          demo: [
+            { img: "tour-2", hot: { x: 13, y: 22, w: 12, h: 6 },
+              cap: "Go to <strong>Pages → Add New Page</strong> in your left menu." },
+            { text: { h: "Give it a title, then build it", p: "Type a page title, then click 'Edit with Elementor' to design it like your other pages — or ask TaskFloVA to set up the structure and you just fill in the words." } },
+            { img: "elem-4", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "When it's ready, click <strong>Publish</strong>. Then add it to your menu so visitors can find it — see 'Change your menu links'." }
+          ],
+          steps: [
+            "Go to <strong>Pages → Add New Page</strong>.",
+            "Give the page a title.",
+            "Click <strong>Edit with Elementor</strong> to design it (or ask TaskFloVA to scaffold it).",
+            "Click <strong>Publish</strong>, then add it to your menu so people can find it."
+          ]
+        }
+      ]
+    },
+    {
+      group: "Header, footer & menus",
+      items: [
+        {
+          id: "find-templates", title: "Find your header & footer", time: "2 min",
+          icon: '<rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="18" height="7" rx="1"/>',
+          demo: [
+            { img: "xpro-list", hot: { x: 0, y: 28, w: 12, h: 12 },
+              cap: "Your header and footer aren't on a normal page — they live in <strong>Xpro Addons → Theme Builder</strong>.",
+              sub: "They appear on every page, so editing them once updates the whole site." },
+            { img: "xpro-list", hot: { x: 1, y: 28, w: 62, h: 16 },
+              cap: "You'll see <strong>JAP Header</strong> and <strong>JAP Footer</strong> listed. Hover either one and click <strong>Edit with Elementor</strong> to open it." }
+          ],
+          steps: [
+            "In the left menu, open <strong>Xpro Addons → Theme Builder</strong>.",
+            "You'll see <strong>JAP Header</strong> and <strong>JAP Footer</strong>.",
+            "Hover one and click <strong>Edit with Elementor</strong> to change it.",
+            "Because they show on every page, one edit updates your whole site."
+          ]
+        },
+        {
+          id: "edit-header", title: "Edit your header — logo & menu", time: "4 min",
+          icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/>',
+          demo: [
+            { img: "xpro-list", hot: { x: 0, y: 28, w: 62, h: 8 },
+              cap: "From <strong>Xpro Addons → Theme Builder</strong>, open <strong>JAP Header</strong> with Elementor." },
+            { img: "header-1", hot: { x: 20.42, y: 4.67, w: 80.0, h: 100.0 },
+              cap: "Your header opens in Elementor — the <strong>logo</strong> on the left and your <strong>menu</strong> on the right. Click any part to edit it." },
+            { img: "header-2", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "Click the logo to swap the image, or click a menu link to change it. Everything edits in this <strong>left panel</strong>.",
+              sub: "The header shows on every page, so one change updates the whole site." },
+            { img: "header-3", hot: { x: 89.17, y: 0, w: 8.47, h: 6.67 },
+              cap: "Click <strong>Update</strong> (top-right) to publish your new header everywhere." }
+          ],
+          steps: [
+            "Open <strong>Xpro Addons → Theme Builder</strong> and edit <strong>JAP Header</strong> with Elementor.",
+            "Click the <strong>logo</strong> to swap it, or a menu link to change it.",
+            "Make your changes in the left panel.",
+            "Click <strong>Update</strong> — your header updates on every page at once."
+          ]
+        },
+        {
+          id: "edit-footer", title: "Edit your footer — address & hours", time: "3 min",
+          icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15h18"/>',
+          demo: [
+            { img: "xpro-list", hot: { x: 0, y: 36, w: 62, h: 8 },
+              cap: "From <strong>Xpro Addons → Theme Builder</strong>, open <strong>JAP Footer</strong> with Elementor." },
+            { img: "footer-1", hot: { x: 20.42, y: 4.67, w: 80.0, h: 100.0 },
+              cap: "Your footer opens in Elementor. This is where your <strong>address, phone, email</strong> and copyright live." },
+            { img: "footer-2", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "Click any text — the address, phone or email — and type the new details. Click <strong>Update</strong> when done.",
+              sub: "The footer is on every page, so it only needs editing once." }
+          ],
+          steps: [
+            "Open <strong>Xpro Addons → Theme Builder</strong> and edit <strong>JAP Footer</strong>.",
+            "Click the address, phone or email text and retype it.",
+            "Click <strong>Update</strong> to publish across the whole site."
+          ]
+        },
+        {
+          id: "update-contact", title: "Update your phone & address everywhere", time: "4 min",
+          icon: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/>',
+          demo: [
+            { text: { h: "Your details live in two places", p: "Your phone and address appear in the header (top of every page) and the footer (bottom). Update both and your whole site is current." } },
+            { img: "footer-2", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "Open the <strong>JAP Footer</strong> in Theme Builder, click the address or phone, type the new details and click Update." },
+            { img: "header-2", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "If your phone also shows in the header, open <strong>JAP Header</strong> and update it there too.",
+              sub: "Not sure where it all appears? Message TaskFloVA — we'll change it for you in minutes." }
+          ],
+          steps: [
+            "Your contact details appear in the <strong>header</strong> and the <strong>footer</strong>.",
+            "Update the footer in <strong>Theme Builder → JAP Footer</strong>.",
+            "Update the header in <strong>Theme Builder → JAP Header</strong> if it shows there too.",
+            "Or just ask TaskFloVA and we'll change it everywhere."
+          ]
+        },
+        {
+          id: "nav-menu", title: "Change your menu links", time: "3 min",
+          icon: '<path d="M4 12h16"/><path d="M4 6h16"/><path d="M4 18h16"/>',
+          demo: [
+            { img: "menus-1", hot: { x: 33.06, y: 29.12, w: 65.97, h: 60 },
+              cap: "Go to <strong>Appearance → Menus</strong>. This is your <strong>Primary Menu</strong> — the links across the top of your site." },
+            { img: "menus-1", hot: { x: 33, y: 29, w: 40, h: 14 },
+              cap: "Drag items to reorder them, click the arrow on a link to rename it, or use <strong>Add menu items</strong> on the left to add a page.",
+              sub: "Click Save Menu when you're done." },
+            { text: { h: "Adding a new page to the menu", p: "After you publish a new page, come here, tick it in the list on the left, click 'Add to Menu', drag it into place, and Save Menu." } }
+          ],
+          steps: [
+            "Go to <strong>Appearance → Menus</strong>.",
+            "Drag items to reorder, or click an arrow to rename a link.",
+            "Use <strong>Add menu items</strong> on the left to add a page.",
+            "Click <strong>Save Menu</strong> to publish your changes."
+          ]
+        }
+      ]
+    },
+    {
+      group: "Content & media",
+      items: [
+        {
           id: "blog", title: "Publish a new blog post", time: "4 min",
           icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/>',
           demo: [
@@ -935,9 +1145,9 @@
             { img: "post-2", hot: { x: 0.0, y: 6.44, w: 81.39, h: 87.89 },
               cap: "Type your <strong>headline</strong>, press Enter, and write. Think about what families would search for — that's your best headline.",
               sub: "Short paragraphs and subheadings read best, especially on phones." },
-            { img: "post-3", hot: { x: 80.14, y: 120.45, w: 20.28, h: 25.47 },
+            { img: "post-3", hot: { x: 80.14, y: 84.87, w: 20.28, h: 25.47 },
               cap: "In the right panel under <strong>Post</strong>, open <strong>Categories</strong> and tick the best fit — for example Aging at Home." },
-            { img: "post-4", hot: { x: 81.25, y: 20.22, w: 18.06, h: 8.67 },
+            { img: "post-4", hot: { x: 81.25, y: 0.0, w: 18.06, h: 8.67 },
               cap: "Open <strong>Featured image</strong> and choose a photo. This is the image your Blog page shows on the article's card." },
             { img: "post-5", hot: { x: 91.67, y: 1.11, w: 5.41, h: 4.89 },
               cap: "Click <strong>Publish</strong> — it asks you to confirm once more, which is normal. Your article appears on the Blog page automatically, styled to match your site." }
@@ -951,15 +1161,33 @@
           ]
         },
         {
+          id: "edit-post", title: "Edit or update an article", time: "3 min",
+          icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h6"/><path d="M14 2v6h6"/><path d="M18 13.5 21 16.5 17 20.5l-3 .5.5-3Z"/>',
+          demo: [
+            { img: "tour-3", hot: { x: 12.22, y: 24.34, w: 86.81, h: 30 },
+              cap: "Go to <strong>Posts</strong> in your left menu and click the article you want to change." },
+            { img: "post-2", hot: { x: 0, y: 6.44, w: 81.39, h: 40 },
+              cap: "Edit the words just like writing — fix a typo, add a paragraph, or refresh the advice.",
+              sub: "Keep it helpful and easy to skim." },
+            { img: "post-5", hot: { x: 91.67, y: 1.11, w: 5.41, h: 4.89 },
+              cap: "Click <strong>Update</strong> to publish your changes. The article updates on your Blog page instantly." }
+          ],
+          steps: [
+            "Go to <strong>Posts</strong> and click the article to edit.",
+            "Change the text, add or remove paragraphs.",
+            "Click <strong>Update</strong> to publish your changes."
+          ]
+        },
+        {
           id: "media", title: "Add & manage photos", time: "3 min",
           icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
           demo: [
-            { img: "media-1", hot: { x: 22.99, y: 5.0, w: 8.28, h: 4.67 },
+            { img: "media-1", hot: { x: 12.5, y: 10.93, w: 8.28, h: 4.67 },
               cap: "In <strong>Media</strong>, click <strong>Add New Media File</strong>." },
             { img: "media-2", hot: { x: 12.22, y: 10.99, w: 86.81, h: 24.44 },
               cap: "Drag photos from your computer straight into this box — or click <strong>Select Files</strong> to browse.",
               sub: "Clear file names like caregiver-with-client.jpg help Google understand your photos." },
-            { img: "media-3", hot: { x: 76.01, y: 29.89, w: 21.15, h: 6.89 },
+            { img: "media-3", hot: { x: 76.01, y: 27.89, w: 21.15, h: 6.89 },
               cap: "Click the uploaded photo and fill in <strong>Alternative Text</strong> — one sentence describing what's in it.",
               sub: "It helps Google find you, and helps visitors who use screen readers." }
           ],
@@ -997,7 +1225,7 @@
           id: "email", title: "Where do form emails go?", time: "2 min",
           icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
           demo: [
-            { img: "form-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 31.73 },
+            { img: "form-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 36.07 },
               cap: "These are your two forms — <strong>Contact Form</strong> and <strong>Job Application</strong>. Both email you instantly the moment someone submits." },
             { text: { h: "Check spam once a week", p: "Notifications go to your business email address. If one seems missing, peek at the spam folder. Want them sent somewhere else? Message TaskFloVA and we'll switch it the same day." } }
           ],
@@ -1005,6 +1233,63 @@
             "Form notifications are sent to your business email address on file.",
             "Check your <strong>spam folder</strong> once a week, just in case.",
             "Want notifications at a different address? Message TaskFloVA and we'll switch it the same day."
+          ]
+        },
+        {
+          id: "edit-form", title: "Edit your contact form fields", time: "3 min",
+          icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10"/><path d="M7 13h6"/>',
+          demo: [
+            { img: "form-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 18 },
+              cap: "Go to <strong>MetForm → Forms</strong> and open <strong>Contact Form</strong> (or Job Application) to edit it." },
+            { img: "form-edit-1", hot: { x: 20.42, y: 4.67, w: 80.0, h: 100.0 },
+              cap: "The form opens in Elementor. Click any field — Name, Email, Message — to change it." },
+            { img: "form-edit-2", hot: { x: 0, y: 5, w: 22, h: 90 },
+              cap: "Use the left panel to rename a field, mark it required, or add a new one. Click <strong>Update</strong> to save.",
+              sub: "Changing where replies are emailed is a setting — ask TaskFloVA and we'll switch it." }
+          ],
+          steps: [
+            "Go to <strong>MetForm → Forms</strong> and open the form to edit.",
+            "Click a field to change its label or settings in the left panel.",
+            "Add, remove or reorder fields as needed.",
+            "Click <strong>Update</strong> to save your form."
+          ]
+        }
+      ]
+    },
+    {
+      group: "SEO & growth",
+      items: [
+        {
+          id: "seo-score", title: "Read your SEO traffic lights", time: "2 min",
+          icon: '<path d="M12 20a8 8 0 1 1 8-8"/><path d="m12 12 4-2"/>',
+          demo: [
+            { img: "tour-2", hot: { x: 88, y: 18, w: 11, h: 60 },
+              cap: "In your <strong>Pages</strong> and <strong>Posts</strong> lists, each row has a little <strong>SEO dot</strong> from Yoast — green is good, orange is OK, red needs work." },
+            { text: { h: "Green is the goal", p: "A green dot means the page is well set up for Google. Orange or red just means there's room to improve — not that anything is broken." } },
+            { text: { h: "We handle the heavy lifting", p: "TaskFloVA keeps your key pages green. When you write a new post, aim for a green dot — or send it our way and we'll polish it for search." } }
+          ],
+          steps: [
+            "Open <strong>Pages</strong> or <strong>Posts</strong> and look for the coloured SEO dot on each row.",
+            "<strong>Green</strong> = good, <strong>orange</strong> = OK, <strong>red</strong> = needs work.",
+            "A non-green dot isn't a problem — just room to improve.",
+            "TaskFloVA keeps your important pages green."
+          ]
+        },
+        {
+          id: "seo-meta", title: "Improve a page's Google listing", time: "3 min",
+          icon: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+          demo: [
+            { text: { h: "What Google shows in search", p: "Every page can have its own title and one-line description — the blue link and grey text people see on Google. A clear, inviting one earns more clicks." } },
+            { img: "tour-2", hot: { x: 88, y: 18, w: 11, h: 60 },
+              cap: "Open a page in the editor and scroll to the <strong>Yoast SEO</strong> box, then click 'Edit snippet' to set the <strong>SEO title</strong> and <strong>description</strong>.",
+              sub: "We've already written these for your main pages — tweak them anytime." },
+            { text: { h: "Keep it short & local", p: "Title under ~60 characters, description under ~155. Mention what the page offers and your area (Birmingham, AL) — it helps nearby families find you." } }
+          ],
+          steps: [
+            "Open a page in the editor and find the <strong>Yoast SEO</strong> box.",
+            "Click 'Edit snippet' to set the <strong>SEO title</strong> and <strong>meta description</strong>.",
+            "Keep the title under ~60 characters and mention Birmingham, AL.",
+            "Your main pages are already done — tweak anytime, or ask TaskFloVA."
           ]
         }
       ]
@@ -1018,7 +1303,7 @@
           demo: [
             { text: { h: "Your site keeps a “saved copy”", p: "To load fast, the website serves a stored copy of each page (called caching). For a few minutes after an edit, you might still see the old version. Nothing is lost." } },
             { text: { h: "First: hard refresh", p: "Hold Ctrl and press F5 (Windows) or Cmd + Shift + R (Mac). That forces your browser to fetch the newest version of the page." } },
-            { img: "cache-1", hot: { x: 53.55, y: 0.0, w: 12.53, h: 4.89 },
+            { img: "cache-1", hot: { x: 12.69, y: 0.0, w: 12.53, h: 4.89 },
               cap: "Still seeing the old version? While logged in, click <strong>Flush Cache</strong> in the black bar at the top of your website.",
               sub: "Or message TaskFloVA — we'll clear it instantly." }
           ],
@@ -1026,6 +1311,23 @@
             "Your site uses <strong>caching</strong> to load fast — sometimes it shows a saved copy for a few minutes.",
             "First, try a <strong>hard refresh</strong>: hold <code>Ctrl</code> and press <code>F5</code> (Windows) or <code>Cmd + Shift + R</code> (Mac).",
             "Still seeing the old version? Use <strong>Flush Cache</strong> in the top admin bar, or contact TaskFloVA and we'll clear it instantly."
+          ]
+        },
+        {
+          id: "preview", title: "Preview before you publish", time: "2 min",
+          icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+          demo: [
+            { text: { h: "See it before anyone else does", p: "You never have to guess how a change will look — you can preview it privately first, exactly as visitors will see it." } },
+            { img: "elem-4", hot: { x: 80, y: 0, w: 12, h: 7 },
+              cap: "In Elementor, click the <strong>eye icon</strong> to preview your page in a new tab.",
+              sub: "In the post editor, use the <strong>Preview</strong> button at the top-right." },
+            { text: { h: "Happy? Then publish", p: "If it looks right, click Update (Elementor) or Publish (posts). If not, keep editing — nothing goes live until you save." } }
+          ],
+          steps: [
+            "In Elementor, click the <strong>eye icon</strong> to preview in a new tab.",
+            "In the post editor, use the <strong>Preview</strong> button.",
+            "Check how it looks, then Update or Publish when you're happy.",
+            "Nothing is live until you save."
           ]
         },
         {
@@ -1047,10 +1349,13 @@
 
   /* ---------- gallery categories + helpers ---------- */
   var CAT_META = {
-    "Getting started":      { short: "Getting Started", accent: "#1FC8E0", grad: ["#0E7E92", "#0A2156"] },
-    "Editing your website": { short: "Editing",         accent: "#FD5757", grad: ["#B23A3A", "#3A1230"] },
-    "Forms & inquiries":    { short: "Forms",           accent: "#2BD9A3", grad: ["#1E8E6B", "#0A2A33"] },
-    "Good to know":         { short: "Good to Know",    accent: "#FFC24B", grad: ["#B07A14", "#3A2A0A"] }
+    "Getting started":        { short: "Getting Started", accent: "#1FC8E0", grad: ["#0E7E92", "#0A2156"] },
+    "Editing pages":          { short: "Editing Pages",   accent: "#FD5757", grad: ["#B23A3A", "#3A1230"] },
+    "Header, footer & menus": { short: "Header & Footer", accent: "#9B8CFF", grad: ["#5B4FB0", "#241A4A"] },
+    "Content & media":        { short: "Content & Media", accent: "#2BD9A3", grad: ["#1E8E6B", "#0A2A33"] },
+    "Forms & inquiries":      { short: "Forms",           accent: "#FFC24B", grad: ["#B07A14", "#3A2A0A"] },
+    "SEO & growth":           { short: "SEO & Growth",    accent: "#4FB4E8", grad: ["#2A6E9E", "#0A1E33"] },
+    "Good to know":           { short: "Good to Know",    accent: "#8FACB2", grad: ["#5A7A82", "#1A2A2E"] }
   };
   var TUT_FLAT = [];
   TUTS.forEach(function (g) {
@@ -1062,7 +1367,7 @@
       TUT_FLAT.push(copy);
     });
   });
-  var TUT_FEATURED = ["login", "tour", "elementor"]; /* the essential first guides */
+  var TUT_FEATURED = ["login", "edit-header", "elementor"]; /* the essential first guides */
 
   /* ---------- demo player (video-style walkthrough) ---------- */
   var demoEl = null, demoState = { steps: [], i: 0, playing: false, timer: null, title: "" };
