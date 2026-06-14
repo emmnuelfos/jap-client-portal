@@ -880,22 +880,22 @@
           id: "tour", title: "Find your way around WordPress", time: "3 min",
           icon: '<polygon points="3 11 22 2 13 21 11 13 3 11"/>',
           demo: [
-            { img: "tour-1", hot: { x: 0.0, y: 4.44, w: 11.94, h: 43.17 },
-              cap: "Your <strong>left menu</strong> has exactly what you need: Pages, Posts, Media and Inquiries — no technical clutter.", sub: "TaskFloVA manages everything else behind the scenes." },
-            { img: "tour-2", hot: { x: 12.22, y: 24.34, w: 86.81, h: 78.1 },
+            { img: "tour-1", hot: { x: 0.0, y: 4.44, w: 11.94, h: 91.19 },
+              cap: "Your <strong>left menu</strong> lists everything WordPress can do. The three you'll use most are <strong>Posts</strong>, <strong>Media</strong> and <strong>Pages</strong>.", sub: "The rest — Elementor, Settings, Plugins — are advanced tools your TaskFloVA team manages. You can safely ignore them." },
+            { img: "tour-2", hot: { x: 12.22, y: 19.23, w: 86.81, h: 78.1 },
               cap: "<strong>Pages</strong> holds your permanent website pages — Home, Services, About, Contact, Careers, FAQs and Blog.",
               sub: "These are edited with Elementor — covered in the next walkthrough." },
-            { img: "tour-3", hot: { x: 12.22, y: 24.34, w: 86.81, h: 53.69 },
+            { img: "tour-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 44.88 },
               cap: "<strong>Posts</strong> holds your blog articles. Your three launch articles already live here." },
-            { img: "tour-4", hot: { x: 12.22, y: 24.9, w: 86.81, h: 95.75 },
+            { img: "tour-4", hot: { x: 12.22, y: 18.97, w: 86.81, h: 95.75 },
               cap: "<strong>Media</strong> is your photo library — every image on the website lives in this grid." }
           ],
           steps: [
-            "The <strong>left menu</strong> holds your four tools: Pages, Posts, Media and Inquiries.",
+            "Your <strong>left menu</strong> lists every WordPress tool — but you'll mainly use three: Posts, Media and Pages.",
             "<strong>Pages</strong> holds your main website pages (Home, Services, Contact…).",
             "<strong>Posts</strong> holds your blog articles.",
             "<strong>Media</strong> is your photo library — every image on the site lives here.",
-            "Everything technical is handled by TaskFloVA behind the scenes."
+            "The advanced menus (Elementor, Settings, Plugins, Users) are managed by TaskFloVA — you can ignore them."
           ]
         }
       ]
@@ -907,7 +907,7 @@
           id: "elementor", title: "Edit a page with Elementor", time: "4 min",
           icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
           demo: [
-            { img: "elem-1", hot: { x: 15.33, y: 34.43, w: 8.69, h: 3.11 },
+            { img: "elem-1", hot: { x: 0.0, y: 29.32, w: 8.69, h: 3.11 },
               cap: "In <strong>Pages</strong>, hover over the page you want and click <strong>Edit with Elementor</strong>." },
             { img: "elem-2", hot: { x: 20.42, y: 4.67, w: 80.0, h: 100.0 },
               cap: "Your page opens looking exactly like the live website. Everything you see here can be clicked and changed." },
@@ -935,9 +935,9 @@
             { img: "post-2", hot: { x: 0.0, y: 6.44, w: 81.39, h: 87.89 },
               cap: "Type your <strong>headline</strong>, press Enter, and write. Think about what families would search for — that's your best headline.",
               sub: "Short paragraphs and subheadings read best, especially on phones." },
-            { img: "post-3", hot: { x: 80.14, y: 84.87, w: 20.28, h: 25.47 },
+            { img: "post-3", hot: { x: 80.14, y: 120.45, w: 20.28, h: 25.47 },
               cap: "In the right panel under <strong>Post</strong>, open <strong>Categories</strong> and tick the best fit — for example Aging at Home." },
-            { img: "post-4", hot: { x: 81.25, y: 0.0, w: 18.06, h: 8.67 },
+            { img: "post-4", hot: { x: 81.25, y: 20.22, w: 18.06, h: 8.67 },
               cap: "Open <strong>Featured image</strong> and choose a photo. This is the image your Blog page shows on the article's card." },
             { img: "post-5", hot: { x: 91.67, y: 1.11, w: 5.41, h: 4.89 },
               cap: "Click <strong>Publish</strong> — it asks you to confirm once more, which is normal. Your article appears on the Blog page automatically, styled to match your site." }
@@ -954,12 +954,12 @@
           id: "media", title: "Add & manage photos", time: "3 min",
           icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
           demo: [
-            { img: "media-1", hot: { x: 12.5, y: 10.93, w: 8.28, h: 4.67 },
+            { img: "media-1", hot: { x: 22.99, y: 5.0, w: 8.28, h: 4.67 },
               cap: "In <strong>Media</strong>, click <strong>Add New Media File</strong>." },
             { img: "media-2", hot: { x: 12.22, y: 10.99, w: 86.81, h: 24.44 },
               cap: "Drag photos from your computer straight into this box — or click <strong>Select Files</strong> to browse.",
               sub: "Clear file names like caregiver-with-client.jpg help Google understand your photos." },
-            { img: "media-3", hot: { x: 76.01, y: 27.89, w: 21.15, h: 6.89 },
+            { img: "media-3", hot: { x: 76.01, y: 29.89, w: 21.15, h: 6.89 },
               cap: "Click the uploaded photo and fill in <strong>Alternative Text</strong> — one sentence describing what's in it.",
               sub: "It helps Google find you, and helps visitors who use screen readers." }
           ],
@@ -980,7 +980,7 @@
           icon: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11Z"/>',
           demo: [
             { img: "form-1", hot: { x: 12.22, y: 19.23, w: 86.81, h: 42.91 },
-              cap: "Every contact message and job application is saved under <strong>Inquiries</strong> in your left menu.",
+              cap: "Every contact message and job application is saved under <strong>MetForm → Entries</strong> in your left menu.",
               sub: "Blurred here for privacy — you'll see real names and dates." },
             { img: "form-2", hot: { x: 12.22, y: 8.77, w: 86.81, h: 66.01 },
               cap: "Click any entry to see the full message, phone number and — for job applications — the attached resume.",
@@ -988,7 +988,7 @@
           ],
           steps: [
             "Every contact form and job application is emailed to you instantly.",
-            "They're also saved in WordPress under <strong>Inquiries</strong> in your left menu.",
+            "They're also saved in WordPress — open <strong>MetForm → Entries</strong> in your left menu.",
             "Click any entry to see the full message, phone number, and (for job applications) the attached resume.",
             "Tip: respond to care inquiries within one business day — speed wins clients."
           ]
@@ -997,7 +997,7 @@
           id: "email", title: "Where do form emails go?", time: "2 min",
           icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
           demo: [
-            { img: "form-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 36.07 },
+            { img: "form-3", hot: { x: 12.22, y: 19.23, w: 86.81, h: 31.73 },
               cap: "These are your two forms — <strong>Contact Form</strong> and <strong>Job Application</strong>. Both email you instantly the moment someone submits." },
             { text: { h: "Check spam once a week", p: "Notifications go to your business email address. If one seems missing, peek at the spam folder. Want them sent somewhere else? Message TaskFloVA and we'll switch it the same day." } }
           ],
@@ -1018,7 +1018,7 @@
           demo: [
             { text: { h: "Your site keeps a “saved copy”", p: "To load fast, the website serves a stored copy of each page (called caching). For a few minutes after an edit, you might still see the old version. Nothing is lost." } },
             { text: { h: "First: hard refresh", p: "Hold Ctrl and press F5 (Windows) or Cmd + Shift + R (Mac). That forces your browser to fetch the newest version of the page." } },
-            { img: "cache-1", hot: { x: 12.69, y: 0.0, w: 12.53, h: 4.89 },
+            { img: "cache-1", hot: { x: 53.55, y: 0.0, w: 12.53, h: 4.89 },
               cap: "Still seeing the old version? While logged in, click <strong>Flush Cache</strong> in the black bar at the top of your website.",
               sub: "Or message TaskFloVA — we'll clear it instantly." }
           ],
