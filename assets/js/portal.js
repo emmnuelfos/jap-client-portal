@@ -861,7 +861,7 @@
           icon: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
           demo: [
             { img: "login-1", hot: { x: 37.92, y: 22.82, w: 24.17, h: 28.76 },
-              cap: "Go to <strong>japseniorservicesllc.com/wp-admin</strong> — your own branded sign-in screen. Type the <strong>username</strong> and <strong>password</strong> from your TaskFloVA welcome email.",
+              cap: "Go to <strong>japseniorservicesllc.com/japlogin/</strong> — your own branded sign-in screen. Type the <strong>username</strong> and <strong>password</strong> from your TaskFloVA welcome email.",
               sub: "Tip: let your browser save them — one less thing to remember." },
             { img: "login-2", hot: { x: 53.57, y: 43.59, w: 6.57, h: 4.89 },
               cap: "Click <strong>Log In</strong> and you're in." },
@@ -870,7 +870,7 @@
               sub: "Bookmark this page so it's always one click away." }
           ],
           steps: [
-            "Go to <code>japseniorservicesllc.com/wp-admin</code> — your branded sign-in screen.",
+            "Go to <code>japseniorservicesllc.com/japlogin/</code> — your branded sign-in screen.",
             "Enter the <strong>username and password</strong> from your TaskFloVA welcome email.",
             "You'll land on the WordPress <strong>Dashboard</strong> — the control room for your whole website.",
             "Bookmark this page so it's always one click away."
